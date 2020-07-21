@@ -1,6 +1,6 @@
 <template>
     <div class="navheaderC">
-        <div>main</div>
+        <router-view></router-view>
     </div>
 </template>
 <script>
@@ -14,7 +14,7 @@ export default {
         width:100%;
         height:900px;
         position:fixed;
-        left: 200px;
+        left: var(--width--sidebar);
         top:60px;
         background: #ccc;
         padding-left:10px

@@ -1,18 +1,59 @@
 <template>
     <div class="siderbarc">
-        siderbar
+       <el-menu
+        default-active="1"
+        class="el-menu-vertical-demo"
+        @open="handleOpen"
+        @close="handleClose"
+        mode="vertical"
+        :background-color="variables.menuBg"
+        :text-color="variables.menuText"
+        :active-text-color="variables.menuActiveText"
+        :unique-opened="true"
+       >
+      
+            <sidebar-item v-for="route in routes" :key="route.path" :item="route" :base-path="route.path" />
+     
+    </el-menu>
     </div>
 </template>
 <script>
-
+import variables from '@/assets/css/variables.scss'
+import SidebarItem from './SidebarItem.vue'
 export default {
-    
+    components:{
+        SidebarItem
+    },
+    data(){
+        return{
+            rout:''
+        }
+    },
+    created(){
+        console.log(this.$router.options.routes)
+    },
+    computed:{
+        variables() {
+             return variables
+         },
+         routes() {
+             return this.$router.options.routes
+         },
+    },
+      methods: {
+      handleOpen(key, keyPath) {
+        console.log(key, keyPath);
+      },
+      handleClose(key, keyPath) {
+        console.log(key, keyPath);
+      }
+    }
 }
 </script>
 <style lang="scss">
     .siderbarc{
-        width: 200px;
-        min-width: 200px;
+        width: var( --width--sidebar);
+        min-width: var( --width--sidebar);
         height: 1000px;
         background:rgb(48, 65, 86);
         position: fixed;

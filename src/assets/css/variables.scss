@@ -1,0 +1,13 @@
+
+// 侧边栏背景色
+$menuBg:#304156;
+// 字体颜色
+$menuText:#bfcbd9;
+// 被选中字体颜色
+$menuActiveText:#409EFF;
+:export {
+    menuText: $menuText;
+    menuBg: $menuBg;
+    menuActiveText:$menuActiveText;
+  }
+  

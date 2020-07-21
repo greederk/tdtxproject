@@ -19,7 +19,7 @@ export default {
         background: #fff;
         position: relative;
         box-shadow: 0 3px 4px rgba(0,21,41,0.08);
-        margin-left: 200px;
+        margin-left: var(--width--sidebar);
         .login{
             right: 0px;
             position: absolute;
