@@ -2,12 +2,26 @@
     <div class="navheaderc">
       
         <el-button type="primary" round class="login">登录</el-button>
+        <div>{{dataone}}</div>
     </div>
 </template>
 <script>
-
+// import {getListdb} from '@/api/test.js'
 export default {
-    
+    data(){
+        return{
+            dataone:''
+        }
+    },
+    created(){
+        
+    },
+    mounted(){
+        // getListdb().then(res => {
+        //     this.dataone = res.data
+        //     console.log(res)
+        // })
+    }
 }
 </script>
 <style lang="scss">

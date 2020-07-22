@@ -24,15 +24,16 @@ export const constantRoutes = [
         name: 'Dashboard',
         component: () => import('@/views/dashboard/index.vue'),
         meta: { title: '首页', icon: 'dashboard' }
-      }]
+      }],
+      hidden:true
     },
   
     {
       path: '/example',
       component: Layout,
-      redirect: '/example/table',
+      redirect: '/example',
       name: 'Example',
-      meta: { title: '订单出票',  icon: 'table' },
+      meta: { title: '订单出票',  icon: 'fly' },
       children: [
         {
           path: '/chupiaodaodan',
@@ -163,7 +164,37 @@ export const constantRoutes = [
         }
       ]
     },
-  
+
+    // 個人中心
+    {
+      path: '/nested',
+      component: Layout,
+      redirect: '/nested',
+      name: 'Nested',
+      meta: {
+        title: '个人中心',
+        icon: 'nested'
+      },
+      children: [
+        {
+            path: '/subscription',
+            component: () => import('@/views/private/subscription'),
+            meta: { title: '消息订阅' }
+        },
+        {
+          path: '/lockorder',
+          name: 'Table',
+          component: () => import('@/views/private/lockorder'),
+          meta: { title: '已锁订单'}
+        },
+        {
+          path: '/priconfig',
+          name: 'Table',
+          component: () => import('@/views/private/priconfig'),
+          meta: { title: '个性配置' }
+        }
+      ]
+    },
    
   
   
