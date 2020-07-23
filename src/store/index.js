@@ -1,3 +1,18 @@
 import Vue from 'vue'
-import vuex from 'vuex'
-import Getters from './getters'
+import Vuex from 'vuex'
+import getters from './getters'
+import app from './modules/app'
+
+
+Vue.use(Vuex)
+const store = new Vuex.Store({
+    modules: {
+      app,
+    //   settings,
+    //   user,
+    //   test
+    },
+    getters
+  })
+  
+  export default store
