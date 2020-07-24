@@ -3,25 +3,25 @@ import Router from 'vue-router'
 import Layout from '../layout/index.vue'
 Vue.use(Router)
 export const constantRoutes = [
-    // {
-    //   path: '/login',
-    //   component: () => import('@/views/login/index'),
-    //   hidden: true
-    // },
+    {
+      path: '/login',
+      component: () => import('@/views/login'),
+      hidden: true
+    },
   
-    // {
-    //   path: '/404',
-    //   component: () => import('@/views/404'),
-    //   hidden: true
-    // },
+    {
+      path: '/404',
+      component: () => import('@/views/404'),
+      hidden: true
+    },
   
     {
       path: '/',
       component: Layout,
       redirect: '/dashboard',
       children: [{
-        path: 'dashboard',
-        name: 'Dashboard',
+        path: '/dashboard',
+        name: 'dashboard',
         component: () => import('@/views/dashboard/index.vue'),
         meta: { title: '首页', icon: 'dashboard' }
       }],
@@ -31,7 +31,6 @@ export const constantRoutes = [
     {
       path: '/example',
       component: Layout,
-      redirect: '/example',
       name: 'Example',
       meta: { title: '订单出票',  icon: 'fly' },
       children: [
@@ -79,9 +78,9 @@ export const constantRoutes = [
         //   meta: { title: '国际紧急订单'}
         // },
         {
-          path: '/jiangcangcj',
-          name: 'jiangcangcj',
-          component: () => import('@/views/orders/jiangcangsj.vue'),
+          path: '/jiangcangsc',
+          name: 'jiangcangsc',
+          component: () => import('@/views/orders/jiangcangsc.vue'),
           meta: { title: '降舱数据上传'}
         },
         {
@@ -103,7 +102,7 @@ export const constantRoutes = [
           meta: { title: '订单查询'}
         },
         {
-          path: 'guoneiweicp',
+          path: '/guoneiweicp',
           name: 'guoneiweicp',
           component: () => import('@/views/orders/guoneiweicp.vue'),
           meta: { title: '国内未出票'}
@@ -196,10 +195,224 @@ export const constantRoutes = [
       ]
     },
    
-  
-  
+      // 订单助手
+    {
+      path: '/self',
+      component: Layout,
+      // redirect: '/self',
+      name: 'Nested',
+      meta: {
+        title: '订单助手',
+        icon: 'nested'
+      },
+      children: [
+        {
+            path: '/heiping',
+            name:'heiping',
+            component: () => import('@/views/self/heiping'),
+            meta: { title: '黑屏服务' }
+        },
+        {
+          path: '/guoneidijia',
+          name: 'guoneidijia',
+          component: () => import('@/views/self/guoneidijia'),
+          meta: { title: '国内低价扫描'}
+        },
+        // {
+        //   path: 'menu2',
+        //   name: 'Table',
+        //   component: () => import('@/views/nested/menu2/index'),
+        //   meta: { title: '京东线下退票' }
+        // },
+        // {
+        //   path: 'menu2',
+        //   component: () => import('@/views/nested/menu2/index'),
+        //   meta: { title: '国际低价扫描' }
+        // },
+        {
+          path: '/newlist',
+          name: 'newlist',
+          component: () => import('@/views/self/newlist'),
+          meta: { title: '接收短信列表'}
+        },
+        {
+          path: '/detrni',
+          name: 'detrni',
+          component: () => import('@/views/self/detrni'),
+          meta: { title: 'DETRNI详情列表' }
+        },
+        // {
+        //   path: 'menu2',
+        //   component: () => import('@/views/nested/menu2/index'),
+        //   meta: { title: '国际订单编码' }
+        // },
+        // {
+        //   path: 'menu2',
+        //   name: 'Table',
+        //   component: () => import('@/views/nested/menu2/index'),
+        //   meta: { title: '淘宝国际扫线'}
+        // },
+        {
+          path: '/addpnr',
+          name: 'addpnr',
+          component: () => import('@/views/self/addpnr'),
+          meta: { title: 'PNR入库' }
+        },
+        // {
+        //   path: 'menu2',
+        //   component: () => import('@/views/nested/menu2/index'),
+        //   meta: { title: '会员管理' }
+        // },
+        {
+          path: '/baiping',
+          name: 'baiping',
+          component: () => import('@/views/self/baiping'),
+          meta: { title: '白屏操作'}
+        },
+        
+      ]
+    },
+    // 退改签处理  Endorse the back  // airticket change
+    {
+      path: '/airticketchange',
+      component: Layout,
+ 
+      name: 'airticketchange',
+      meta: {
+        title: '退改签处理',
+        icon: 'nested'
+      },
+      children: [
+        {
+            path: '/gaiqianjk',
+            component: () => import('@/views/airticketchange/gaiqianjk'),
+            meta: { title: '改签导单监控' }
+        },
+        {
+          path: '/tuipaiojk',
+          name: 'tuipaiojk',
+          component: () => import('@/views/airticketchange/tuipaiojk'),
+          meta: { title: '退票导单监控'}
+        },
+        {
+          path: '/tuigaibl',
+          name: 'tuigaibl',
+          component: () => import('@/views/airticketchange/tuigaibl'),
+          meta: { title: '退改补录' }
+        },
+        {
+          path: '/guoneiwtj',
+          component: () => import('@/views/airticketchange/guoneiwtj'),
+          meta: { title: '国内未提交退票订单' }
+        },
+        {
+          path: '/chongchucx',
+          name: 'chongchucx',
+          component: () => import('@/views/airticketchange/chongchucx'),
+          meta: { title: '重出查询'}
+        },
+        {
+          path: '/gaiqiancx',
+          name: 'gaiqiancx',
+          component: () => import('@/views/airticketchange/gaiqiancx'),
+          meta: { title: '改签查询' }
+        },
+        {
+          path: '/guoneihb',
+          name: 'guoneihb',
+          component: () => import('@/views/airticketchange/guoneihb'),
+          meta: { title: '国内航变订单列表' }
+          },
+          {
+            path: '/tuipiaocx',
+            component: () => import('@/views/airticketchange/tuipiaocx'),
+            meta: { title: '退票查询' }
+        },
+        {
+          path: '/guoneisq',
+          name: 'guoneisq',
+          component: () => import('@/views/airticketchange/guoneisq'),
+          meta: { title: '国内申请改签订单'}
+        }
+      ]
+    },
+
+    {
+      path: '/Statistical',
+      component: Layout,
+      
+      name: 'Statistical',
+      meta: {
+        title: '统计报表',
+        icon: 'nested'
+      },
+      children: [
+        {
+            path: '/allprofit',
+            component: () => import('@/views/Statistical/allprofit'),
+            meta: { title: '利润汇总' }
+        },
+        {
+          path: '/orderorigin',
+          name: 'orderorigin',
+          component: () => import('@/views/Statistical/orderorigin'),
+          meta: { title: '订单来源及出票地'}
+        },
+        {
+          path: '/platform',
+          name: 'platform',
+          component: () => import('@/views/Statistical/platform'),
+          meta: { title: '出票平台' }
+        },
+        {
+          path: '/finance',
+          component: () => import('@/views/Statistical/finance'),
+          meta: { title: '财务报表' }
+        },
+        {
+          path: '/market',
+          name: 'market',
+          component: () => import('@/views/Statistical/market'),
+          meta: { title: '销售报表'}
+        },
+        {
+          path: '/refund',
+          name: 'refund',
+          component: () => import('@/views/Statistical/refund'),
+          meta: { title: '退款明细' }
+        },
+        {
+          path: '/chupiaomx',
+          name: 'chupiaomx',
+          component: () => import('@/views/Statistical/chupiaomx'),
+          meta: { title: '出票明细' }
+          },
+          {
+            path: '/performance',
+            component: () => import('@/views/Statistical/performance'),
+            meta: { title: '个人业绩' }
+         },
+         {
+          path: '/markets',
+          name: 'markets',
+          component: () => import('@/views/Statistical/markets'),
+          meta: { title: '销售统计'}
+          },
+         {
+          path: '/daodantj',
+          name: 'daodantj',
+          component: () => import('@/views/Statistical/daodantj'),
+          meta: { title: '导单统计'}
+        }
+      ]
+    },
     // 404 page must be placed at the end !!!
-    { path: '*', redirect: '/404', hidden: true }
+    { 
+      path: '*',
+      redirect: '/404',
+      name:'page404',
+      component: () => import('@/views/404')
+    }
   ]
 
 const createRouter = () => new Router({

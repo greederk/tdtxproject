@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import App from './App.vue'
-import {Button,Menu,Submenu,MenuItem,MenuItemGroup,Row,Col,Input,Dropdown,DropdownMenu,DropdownItem} from 'element-ui'
+import {Button,Menu,Submenu,MenuItem,MenuItemGroup,Row,Col,Input,Dropdown,DropdownMenu,DropdownItem,TableColumn,Table,Radio,DatePicker,Select,Option,Pagination,Checkbox,CheckboxGroup,Form,FormItem,Loading} from 'element-ui'
 import router from './router'
 import store from '@/store'
 Vue.config.productionTip = false
@@ -18,9 +18,22 @@ Vue.use(Input)
 Vue.use(Dropdown)
 Vue.use(DropdownMenu)
 Vue.use(DropdownItem)
+Vue.use(TableColumn)
+Vue.use(Table)
+Vue.use(Radio)
+Vue.use(DatePicker)
+Vue.use(Select)
+Vue.use(Option)
+Vue.use(Pagination)
+Vue.use(Checkbox)
+Vue.use(CheckboxGroup)
+Vue.use(Form)
+Vue.use(FormItem)
+Vue.use(Loading)
 
 new Vue({
   store,
   router,
   render: h => h(App),
 }).$mount('#app')
+

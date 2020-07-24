@@ -39,7 +39,7 @@ export default {
                 {
                     path: '/example',
                 
-                    redirect: '/example',
+                  
                     name: 'Example',
                     title: '订单出票',
                     icon: 'el-icon-s-promotion' ,
@@ -89,8 +89,8 @@ export default {
                         //   meta: { title: '国际紧急订单'}
                         // },
                         {
-                        path: '/jiangcangcj',
-                        name: 'jiangcangcj',
+                        path: '/jiangcangsc',
+                        name: 'jiangcangsc',
                     
                         title: '降舱数据上传'
                         },
@@ -113,7 +113,7 @@ export default {
                         title: '订单查询'
                         },
                         {
-                        path: 'guoneiweicp',
+                        path: '/guoneiweicp',
                         name: 'guoneiweicp',
                     
                         title: '国内未出票'
@@ -177,7 +177,7 @@ export default {
                 {
                         path: '/nested',
                     
-                        redirect: '/nested',
+                      
                         name: 'Nested',
                     
                             title: '个人中心',
@@ -202,6 +202,183 @@ export default {
                                  title: '个性配置' 
                             }
                         ]
+                },
+ 
+                {
+                    path: '/self',
+               
+                    // redirect: '/self',
+                    name: 'Nested',
+
+                    title: '订单助手',
+                    icon: 'el-icon-edit-outline',
+                    index:3,
+                    children: [
+                        {
+                            path: '/heiping',
+                            name:'heiping',
+                            title: '黑屏服务' 
+                        },
+                        {
+                            path: '/guoneidijia',
+                            name: 'guoneidijia',
+                            title: '国内低价扫描'
+                        },
+                        // {
+                        //   path: 'menu2',
+                        //   name: 'Table',
+                        //   component: () => import('@/views/nested/menu2/index'),
+                        //   meta: { title: '京东线下退票' }
+                        // },
+                        // {
+                        //   path: 'menu2',
+                        //   component: () => import('@/views/nested/menu2/index'),
+                        //   meta: { title: '国际低价扫描' }
+                        // },
+                        {
+                            path: '/newlist',
+                            name: 'newlist',
+                            title: '接收短信列表'
+                        },
+                        {
+                            path: '/detrni',
+                            name: 'detrni',
+                            title: 'DETRNI详情列表' 
+                        },
+                        // {
+                        //   path: 'menu2',
+                        //   component: () => import('@/views/nested/menu2/index'),
+                        //   meta: { title: '国际订单编码' }
+                        // },
+                        // {
+                        //   path: 'menu2',
+                        //   name: 'Table',
+                        //   component: () => import('@/views/nested/menu2/index'),
+                        //   meta: { title: '淘宝国际扫线'}
+                        // },
+                        {
+                            path: '/addpnr',
+                            name: 'addpnr',
+                            title: 'PNR入库' 
+                        },
+                        // {
+                        //   path: 'menu2',
+                        //   component: () => import('@/views/nested/menu2/index'),
+                        //   meta: { title: '会员管理' }
+                        // },
+                        {
+                            path: '/baiping',
+                            name: 'baiping',
+                            title: '白屏操作'
+                        },
+                        
+                    ]
+                },
+
+                 {
+                    path: '/airticketchange',
+                    name: 'airticketchange', 
+                    title: '退改签处理',
+                    icon: 'el-icon-edit',
+                    index:4,
+                    children: [
+                        {
+                            path: '/gaiqianjk',
+                           title: '改签导单监控' 
+                        },
+                        {
+                            path: '/tuipaiojk',
+                            name: 'tuipaiojk',
+                            title: '退票导单监控'
+                        },
+                        {
+                            path: '/tuigaibl',
+                            name: 'tuigaibl',
+                            title: '退改补录' 
+                        },
+                        {
+                            path: '/guoneiwtj',
+                            title: '国内未提交退票订单' 
+                        },
+                        {
+                            path: '/chongchucx',
+                            title: '重出查询'
+                        },
+                        {
+                            path: '/gaiqiancx',
+                            name: 'gaiqiancx',
+                             title: '改签查询' 
+                        },
+                        {
+                            path: '/guoneihb',
+                            name: 'guoneihb',
+                            title: '国内航变订单列表' 
+                        },
+                        {
+                            path: '/tuipiaocx',
+                            title: '退票查询' 
+                        },
+                        {
+                            path: '/guoneisq',
+                            title: '国内申请改签订单'
+                        }
+                    ]
+                },    
+                    
+                {
+                    path: '/Statistical',
+                    name: 'Statistical',                  
+                    title: '统计报表',
+                    icon: 'el-icon-tickets',
+                    children: [
+                        {
+                            path: '/allprofit',
+                            title: '利润汇总' 
+                        },
+                        {
+                            path: '/orderorigin',
+                            name: 'orderorigin',
+                            title: '订单来源及出票地'
+                        },
+                        {
+                            path: '/platform',
+                            name: 'platform',
+                            title: '出票平台' 
+                        },
+                        {
+                            path: '/finance',
+                            title: '财务报表' 
+                        },
+                        {
+                            path: '/market',
+                            name: 'market',
+                            title: '销售报表'
+                        },
+                        {
+                            path: '/refund',
+                            name: 'refund',
+                            title: '退款明细' 
+                        },
+                        {
+                            path: '/chupiaomx',
+                            name: 'chupiaomx',
+                            title: '出票明细' 
+                        },
+                        {
+                            path: '/performance',
+                            title: '个人业绩' 
+                        },
+                        {
+                            path: '/markets',
+                            name: 'markets',
+                            title: '销售统计'
+                        },
+                        {
+                            path: '/daodantj',
+                            name: 'daodantj',
+                            title: '导单统计'
+                        }
+                    ]
                 },
             ]
         }
@@ -246,6 +423,13 @@ export default {
         top:0px;
         left: 0px;
         // float: left;
+        .el-submenu__title{
+            //图标左距离
+            padding-left:13px !important; 
+        }
+         .el-menu-item, .siderbarc .el-submenu__title{
+            height: 40px;
+        }
         .el-menu-vertical-demo{
             height: 100%;
         }

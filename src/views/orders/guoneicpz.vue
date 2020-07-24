@@ -1,18 +1,13 @@
+<template>
+  <div>
+      国内出票中
+  </div>
+</template>
 <script>
-
 export default {
-    
+  name:"guoneicpz"
 }
 </script>
-<style lang="scss">
-    .siderbarc{
-        width: var( --width--sidebar);
-        min-width: var( --width--sidebar);
-        height: 1000px;
-        background:rgb(48, 65, 86);
-        position: fixed;
-        top:0px;
-        left: 0px;
-        // float: left;
-    }
+<style lang="scss" scoped>
+
 </style>

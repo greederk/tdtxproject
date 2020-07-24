@@ -1,3 +1,9 @@
+<template>
+    <div name="同舱待处理">
+        同舱待处理
+    </div>
+</template>
+
 <script>
 
 export default {

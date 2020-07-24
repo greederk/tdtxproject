@@ -1,6 +1,9 @@
 <template>
     <div class="navheaderC">
-        <router-view></router-view>
+        <!-- <transition name="fade" mode="out-in"> -->
+          <router-view></router-view>
+        <!-- </transition> -->
+      
     </div>
 </template>
 <script>
@@ -19,4 +22,34 @@ export default {
         background: #ccc;
         padding-left:10px
     }
+.fade-enter-active,
+.fade-leave-active {
+   transition: all 0.1s ;
+}
+
+// .fade-enter,
+// .fade-leave-active {
+//   opacity: 0;
+// }
+
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+//   transform: translateX(500px);
+}
+
+.fade-transform-leave-active,
+.fade-transform-enter-active {
+  transition: all 0.1s;
+}
+
+.fade-transform-enter {
+  opacity: 0;
+  transform: translateX(-30px);
+}
+
+.fade-transform-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
+}
+
 </style>
