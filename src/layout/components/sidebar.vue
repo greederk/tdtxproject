@@ -330,6 +330,7 @@ export default {
                     name: 'Statistical',                  
                     title: '统计报表',
                     icon: 'el-icon-tickets',
+                    index:5,
                     children: [
                         {
                             path: '/allprofit',
@@ -377,6 +378,35 @@ export default {
                             path: '/daodantj',
                             name: 'daodantj',
                             title: '导单统计'
+                        }
+                    ]
+                },
+                {
+                    path: '/Controller',
+                    name: 'Controller',                  
+                    title: '政策配置',
+                    icon: 'el-icon-circle-plus-outline',
+                    index:6,
+                    children: [
+                        {
+                            path: '/shangchuan',
+                            title: '上传配置' 
+                        },
+                        {
+                            path:'/flightprice',
+                            title:"航班价格信息"
+                        },
+                        {
+                            path:'/baseconfig',
+                            title:"基本配置"
+                        },
+                         {
+                            path:'/liudianconfig',
+                            title:"留点配置"
+                        },
+                        {
+                            path:'/postliudian',
+                            title:"修改留点配置"
                         }
                     ]
                 },

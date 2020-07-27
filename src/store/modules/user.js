@@ -1,5 +1,6 @@
-import { login } from '@/api/user'
+import { login,logout } from '@/api/user'
 import {gettoken ,settoken,removetoken} from '@/util/auth'
+import {resetrouter} from '@/router'
 const state = {
     token:gettoken(),
 
@@ -13,7 +14,7 @@ const actions = {
     logincf({commit},userInfo){
         const {username,password} = userInfo
         return new Promise((resolve,reject) => {
-            login({username:ursername.trim(),password:password}).then(response => {
+            login({username:username.trim(),password:password}).then(response => {
                 const {data} = response
                 commit('SET_TOKEN' ,data.token)
                 settoken(data.token)
@@ -22,5 +23,25 @@ const actions = {
                 reject(error)
             })
         })
+    },
+    logoutcf({commit,state}){
+        return new Promise((resolve,reject)=> {
+            logout(state.token).then(()=>{
+                commit('SET_TOKEN','')
+                commit('SET_ROLES','')
+                removetoken()
+                resetrouter()
+                resolve()
+            }).catch((error)=>{
+                reject(error)
+            })
+        })
     }
+}
+
+export default {
+    namespaced:true,
+    state,
+    mutations,
+    actions
 }

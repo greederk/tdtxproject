@@ -1,8 +1,9 @@
 <template>
     <div class="navheaderc">
-      
-        <el-button type="primary" round class="login">登录</el-button>
-        <div>{{dataone}}</div>
+       <!-- <div>宽度：{{dataone1}}高度：{{dataone}}</div> -->
+        <el-button type="primary" round class="login" @click="gethome">回到首页</el-button>
+        <el-button type="primary" round class="login1" @click="tologin">退出</el-button>
+       
     </div>
 </template>
 <script>
@@ -10,7 +11,8 @@
 export default {
     data(){
         return{
-            dataone:''
+            dataone:window.screen.height,
+            dataone1:window.screen.width
         }
     },
     created(){
@@ -21,6 +23,15 @@ export default {
         //     this.dataone = res.data
         //     console.log(res)
         // })
+    },
+    methods:{
+        gethome(){
+            this.$router.push('/')
+        },
+        async tologin(){
+            await this.$store.dispatch('user/logoutcf')
+            this.$router.push('/login')
+        }
     }
 }
 </script>
@@ -35,8 +46,12 @@ export default {
         box-shadow: 0 3px 4px rgba(0,21,41,0.08);
         margin-left: var(--width--sidebar);
         .login{
-            right: 0px;
+            right: 30px;
             position: absolute;
+        }
+        .login1{
+            right:150px;
+            position:absolute;
         }
     }
 </style>

@@ -21,7 +21,7 @@
     <template>
         <el-table
             :data="tableData"
-        height="800"
+          
             border
             stripe
             style="width: 100%">

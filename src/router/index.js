@@ -406,6 +406,43 @@ export const constantRoutes = [
         }
       ]
     },
+    {
+      path: '/Controller',
+      component: Layout,
+      
+      name: 'controller',
+      meta: {
+        title: '政策配置',
+        icon: 'nested'
+      },
+      children:[
+        {
+          path: '/shangchuan',
+          component: () => import('@/views/controller/shangchuan'),
+          meta: { title: '上传配置'  }
+        },
+        {
+          path: '/flightprice',
+          component: () => import('@/views/controller/flightprice'),
+          meta: { title: '航班价格信息'  }
+        },
+        {
+          path:'/baseconfig',
+          component: () => import('@/views/controller/baseconfig'),
+          meta: { title: '基本配置'  }
+        },
+        {
+          path:'/liudianconfig',
+          component: () => import('@/views/controller/liudianconfig'),
+          meta: { title: '留点配置'  }
+        },
+        {
+          path:'/postliudian',
+          component: () => import('@/views/controller/postliudian'),
+          meta: { title: '修改留点配置'  }
+        }
+      ]
+    },
     // 404 page must be placed at the end !!!
     { 
       path: '*',
@@ -419,5 +456,9 @@ const createRouter = () => new Router({
     // mode: 'history',
     routes:constantRoutes
 })
+export function resetrouter() {
+  const newRouter = createRouter()
+  router.matcher = newRouter.matcher // reset router
+}
 const router =  createRouter()
 export default router;

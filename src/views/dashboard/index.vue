@@ -1,19 +1,23 @@
 <template>
     <div class="fonts">
         
-        <ul v-for="item in datas" :key="item">
-            <li>{{item}}</li>
-        </ul>
+        <div>航班信息：</div>
+        <div>{{datas}}</div>
     </div>
 </template>
 <script>
-
+import {getController} from '@/api/test.js'
 export default {
     name:"dashboard",
     data(){
         return{
-            datas:[1,2,3,4,5,6,7,8,9]
+            datas:'',
         }
+    },
+    mounted(){
+        getController().then((res)=>{
+            this.datas = res.data
+        })
     }
 }
 </script>
