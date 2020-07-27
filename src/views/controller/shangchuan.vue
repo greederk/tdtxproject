@@ -70,12 +70,13 @@
 
                 </el-table>
          
-                    
+                    <button @click="getuploads(10,10)">展示</button>
         </div>
     </div>
 </template>
 <script>
 // import Container from '@/components/common/containerone.vue';
+import {getupload} from '@/api/test'
 export default {
     name:'shangchuan',
     components:{
@@ -100,6 +101,15 @@ export default {
                 uploadStartTime:'',   //上传开始时间
                 uploadType:'1'        //上传方式：1-全量
              }
+        }
+    },
+    methods:{
+        getuploads(num1,num2){
+            getupload(num1,num2).then(response => {
+                console.log(response)
+            }).catch(err => {
+                console.log(err)
+            })
         }
     }
 }

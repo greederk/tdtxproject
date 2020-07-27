@@ -105,18 +105,18 @@ export default {
                 airRoute:'',     //航线
                 flightNum:'',    //航班号
                 cabin: '',       //匹配舱位
-                 maxPrintPrice:'',  //匹配票价范围
-                 minPrintPrice:'',
-                 keepPoint:'',     //留点
-                 keepMoney:'',    //留钱
-                 sameDay:'',     //是否只匹配当日留点
-                 official: '',   //是否匹配航司数据
+                 maxPrintPrice:''+0,  //匹配票价范围
+                 minPrintPrice:''+0,
+                 keepPoint:''+0,     //留点
+                 keepMoney:''+0,    //留钱
+                 sameDay:''+0,     //是否只匹配当日留点
+                 official: ''+0,   //是否匹配航司数据
                  officialProductType:'',    //官网产品类型
-                 flightType:'',     //匹配航班类型
+                 flightType:''+0,     //匹配航班类型
                  endDate:'',  //旅行有效期
                  startDate:'', 
                  comment:'' ,   //备注
-                 id:''
+                 id:''+0,
              }
         }
     },
@@ -126,10 +126,14 @@ export default {
 //   })
     methods:{
        postliu(data){
+           console.log(data)
            request({
               url:'/api/td/priceConfig/save',
                 methods:'post',
-                params:{data}
+                params:JSON.stringify(data),
+                 headers:{
+                'Content-Type':'application/json' //改这里就好了
+                },
            }).then(res => {
                console.log(res)
            }).catch(err => {

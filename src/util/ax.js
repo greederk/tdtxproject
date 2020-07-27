@@ -6,7 +6,7 @@ import axios from 'axios'
 // create an axios instance
 const service = axios.create({
 //   baseURL: process.env.VUE_APP_BASE_API, // url = base url + request url
-     baseURL:'http://localhost:8003/',
+    //  baseURL:'http://localhost:8003/',
   // withCredentials: true, // send cookies when cross-domain requests
      timeout: 6000, // request timeout
     //  headers: {'Content-type': 'application/json','access_token':this.token}

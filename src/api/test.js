@@ -14,6 +14,14 @@ export function getController(){
 }
 
 
+// 上传配置展示
+export function getupload(pagesize,currentpage){
+  return request({
+    url:`/api/td/uploadConfig/list/${pagesize}/${currentpage}`,
+    methods:'get'
+  })
+}
+
 //修改基本配置
 export function postbaseconfig(data){
   return request({
