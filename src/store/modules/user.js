@@ -1,14 +1,22 @@
 import { login,logout } from '@/api/user'
 import {gettoken ,settoken,removetoken} from '@/util/auth'
 import {resetrouter} from '@/router'
-const state = {
-    token:gettoken(),
-
-}
+const getDefaultState = () => {
+    return {
+      token: gettoken(),
+      name: '',
+      avatar: ''
+    }
+  }
+  
+const state = getDefaultState()
 const mutations = {
     SET_TOKEN:(state,tokenval) => {
         state.token = tokenval
-    }
+    },
+    RESET_STATE:(state)=>{
+        Object.assign(state, getDefaultState())
+    },
 }
 const actions = {
     logincf({commit},userInfo){
@@ -24,19 +32,18 @@ const actions = {
             })
         })
     },
-    logoutcf({commit,state}){
-        return new Promise((resolve,reject)=> {
+    loginout({commit}){
+        return new Promise((resolve,reject) => {
             logout(state.token).then(()=>{
-                commit('SET_TOKEN','')
-                commit('SET_ROLES','')
                 removetoken()
                 resetrouter()
+                commit('RESET_STATE')
                 resolve()
-            }).catch((error)=>{
-                reject(error)
+            }).catch((err)=>{
+                reject(err)
             })
         })
-    }
+    },
 }
 
 export default {

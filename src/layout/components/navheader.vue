@@ -1,8 +1,8 @@
 <template>
     <div class="navheaderc">
        <!-- <div>宽度：{{dataone1}}高度：{{dataone}}</div> -->
-        <el-button type="primary" round class="login" @click="gethome">回到首页</el-button>
-        <el-button type="primary" round class="login1" @click="tologin">退出</el-button>
+       <el-button type="primary" round  class="redirect" @click="gethome">回到首页</el-button>
+        <el-button type="primary" round class="loginout" @click="loginout">退出登录</el-button>
        
     </div>
 </template>
@@ -25,13 +25,14 @@ export default {
         // })
     },
     methods:{
-        gethome(){
+       gethome(){
             this.$router.push('/')
         },
-        async tologin(){
-            await this.$store.dispatch('user/logoutcf')
-            this.$router.push('/login')
-        }
+      async loginout(){
+          await this.$store.dispatch('user/loginout')
+          
+          this.$router.push('/login')
+       }
     }
 }
 </script>

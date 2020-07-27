@@ -90,11 +90,12 @@
                 </tr>
             </table>
 
-             <el-button type="success" class="subbut" @click="postliu.bind(this,tableData)()">提交修改</el-button>
+             <el-button type="success" class="subbut" @click="postliu(tableData)">提交修改</el-button>
     </div>
 </template>
 <script>
-import {postliudain} from '@/api/test'
+// import {postliudain} from '@/api/test'
+import request from '@/util/request.js'
 export default {
     name:'postliudian',
     data(){
@@ -119,16 +120,22 @@ export default {
              }
         }
     },
+//     request({
+//       url:"/api/td/platform/list",
+//       methods:'get'
+//   })
     methods:{
-        postliu(data){
-            return postliudain(data).then(res => {
-
-                console.log(res)
-            }).catch(err => {
-             
-                console.log(err)
-            })
-        }
+       postliu(data){
+           request({
+              url:'/api/td/priceConfig/save',
+                methods:'post',
+                params:{data}
+           }).then(res => {
+               console.log(res)
+           }).catch(err => {
+               console.log(err)
+           })
+       }
     }
 }
 </script>

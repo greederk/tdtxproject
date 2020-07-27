@@ -407,6 +407,14 @@ export default {
                         {
                             path:'/postliudian',
                             title:"修改留点配置"
+                        },
+                        {
+                            path:'/addpiaomianjia',
+                            title:"增加票面价"
+                        },
+                        {
+                            path:'/filterconfig',
+                            title:"过滤配置"
                         }
                     ]
                 },

@@ -25,6 +25,13 @@ export function postbaseconfig(data){
   })
 }
 
+// 查询留点留钱设置
+export function getliudian(pageSize,currentPage){
+  return request({
+    url:`/api/td/priceConfig/list/${pageSize}/${currentPage}`,
+    methods:'get',
+  })
+}
 // 添加留点留钱设置
 export function postliudain(data){
   return request({
@@ -33,8 +40,13 @@ export function postliudain(data){
     params:{
       data
     },
-    // headers:{
-    //   "Content-Type":'application/x-www-form-urlencoded'
-    // }
+  })
+}
+
+//过滤配置展示   /td/filterConfig/list/{pageSize}/{currentPage}
+export function getfilter(pagesize,currentpage){
+  return request({
+    url:`/api/td/filterConfig/list/${pagesize}/${currentpage}`,
+    methods:'get'
   })
 }

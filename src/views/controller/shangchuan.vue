@@ -2,53 +2,90 @@
     <div class="shangchuan-con">
         政策配置:
         <div class="sc-head">
-              <div>间隔时间(h):</div>
-                <el-input
-                    v-model="zcconfig.allDoedInterval"
-                    class="alltime"
-                    size="mini"
-                    width:180
-                >
-                </el-input>
+             <el-table
+                    :data="tableData"
+                
+                    border
+                    stripe
+                    style="width: 100%">
 
-                <div>全量进度:</div>
-                <template >
-                    <el-select v-model="zcconfig.allDoesStatus" placeholder="请选择" size="small" >
-                        <el-option
-                        v-for="item in options"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.value"
-                         
+                        <el-table-column
+                            prop="tableData.allDoesInterval"
+                            label="全量时间"
+                            align="center">
+                        </el-table-column>
+
+                        <el-table-column
+                            prop="tableData.uploadStartTime"
+                            label="上传开始时间"
                         >
-                        </el-option>
-                    </el-select>
-                </template>
+                        </el-table-column>
 
-                 <div>执行时间:</div>
-                    <container :time="zcconfig.allDoesTime"/>
+                        <el-table-column
+                            prop="tableData.uploadEndTime"
+                            label="上传结束时间">
+                        </el-table-column>
+
+                        <el-table-column
+                            prop="tableData.platform"
+                            label="上传平台">
+                        </el-table-column>
+
+                        <el-table-column
+                            prop="tableData.policyType"
+                            label="政策类型">
+                        </el-table-column>
+
+                        <el-table-column
+                            prop="tableData.uploadType"
+                            label="上传方式">
+                        </el-table-column>
+
+                         <el-table-column
+                            prop="tableData.allDoesStatus"
+                            label="全量进度">
+                        </el-table-column>
+
+                         <el-table-column
+                            prop="tableData.policySource"
+                            label="政策来源">
+                        </el-table-column>
+
+                         <el-table-column
+                            prop="tableData.scheduleTimes"
+                            label="已执行次数">
+                        </el-table-column>
+
+                        <el-table-column
+                            prop="tableData.status"
+                            label="状态">
+                        </el-table-column>
+
+                   
+
+                        <el-table-column
+                            prop="tableData.updateTime"
+                            label="最后修改时间">
+                        </el-table-column>
+
+                </el-table>
+         
+                    
         </div>
     </div>
 </template>
 <script>
-import Container from '@/components/common/containerone.vue';
+// import Container from '@/components/common/containerone.vue';
 export default {
     name:'shangchuan',
     components:{
-        Container
+      
     },
     data(){
         return{
-             options: [{
-                    value: '0',
-                    label: '未开始'
-                }, {
-                    value: '1',
-                    label: '已完成'
-                }
-            ],
-            zcconfig:{
-                allDoedInterval:'',  //间隔时间
+   
+            tableData:{
+                allDoesInterval:'',  //间隔时间
                 allDoesStatus:'',      //0 未开始   1 已完成
                 allDoesTime:'',         //执行时间
                 column2:'',

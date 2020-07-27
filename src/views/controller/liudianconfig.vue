@@ -91,12 +91,12 @@
 
                 </el-table>
             </template>
-             <el-button type="success" class="subbut" @click="postliudian.bind(this,tableData)()">提交</el-button>
+           <button @click="getliudianapi(10,10)"></button>   
         </div>
     </div>
 </template>
 <script>
-import {postliudain} from '@/api/test'
+import {getliudian} from '@/api/test'
 export default {
     name:'liudianconfig',
     data(){
@@ -118,19 +118,22 @@ export default {
                  startDate:'', 
                  comment:'' ,   //备注
                  id:''
-             }
+             },
+             
         }
 
     },
     methods:{
-        postliudian(data){
-            return  postliudain(data).then((res) => {
-                console.log(res)
-            }).catech(err => {
-                console.log('err'+ err)
+
+        getliudianapi(num1,num2){
+            getliudian(num1,num2).then(response => {
+                console.log(response)
+            }).catch(err => {
+                console.log(err)
             })
         }
-    }
+    },
+   
 }
 </script>
 <style lang="scss">

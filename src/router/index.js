@@ -440,6 +440,16 @@ export const constantRoutes = [
           path:'/postliudian',
           component: () => import('@/views/controller/postliudian'),
           meta: { title: '修改留点配置'  }
+        },
+        {
+          path:'/addpiaomianjia',
+          component: () => import('@/views/controller/addpiaomianjia'),
+          meta: { title: '增加票面价'  }
+        },
+        {
+          path:'/filterconfig',
+          component: () => import('@/views/controller/filterconfig'),
+          meta: { title: '过滤配置'  }
         }
       ]
     },
