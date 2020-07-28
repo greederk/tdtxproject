@@ -404,10 +404,10 @@ export default {
                             path:'/liudianconfig',
                             title:"留点配置"
                         },
-                        {
-                            path:'/postliudian',
-                            title:"修改留点配置"
-                        },
+                        // {
+                        //     path:'/postliudian',
+                        //     title:"修改留点配置"
+                        // },
                         {
                             path:'/addpiaomianjia',
                             title:"增加票面价"
@@ -415,6 +415,14 @@ export default {
                         {
                             path:'/filterconfig',
                             title:"过滤配置"
+                        },
+                        // {
+                        //     path:'/postupload',
+                        //     title:"添加上传配置"
+                        // },
+                         {
+                            path:'/getgwcount',
+                            title:"官网座位数"
                         }
                     ]
                 },

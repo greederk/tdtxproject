@@ -7,6 +7,7 @@ function resolve(dir) {
 
 // const name = defaultSettings.title || 'vue Admin Template' // page title
 module.exports = {
+    lintOnSave:false,
     devServer: {
         host:'localhost',
         port: 8003,

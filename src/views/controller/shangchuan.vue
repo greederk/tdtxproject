@@ -7,85 +7,195 @@
                 
                     border
                     stripe
-                    style="width: 100%">
+                    >
 
                         <el-table-column
                             prop="tableData.allDoesInterval"
-                            label="全量时间"
-                            align="center">
+                            label="全量时间（h）"
+                            align="center"
+                            width="120">
+                             <template slot-scope="scope">
+                               
+                                <span >{{ scope.row.allDoesInterval}}</span>
+                            </template>
                         </el-table-column>
 
                         <el-table-column
                             prop="tableData.uploadStartTime"
                             label="上传开始时间"
+                            width="100"
                         >
+                             <template slot-scope="scope">
+                                <span >{{ scope.row.uploadStartTime}}</span>
+                            </template>
                         </el-table-column>
 
                         <el-table-column
                             prop="tableData.uploadEndTime"
-                            label="上传结束时间">
+                            label="上传结束时间"
+                            width="100">
+                             <template slot-scope="scope">
+                                <span >{{ scope.row.uploadEndTime}}</span>
+                            </template>
                         </el-table-column>
 
                         <el-table-column
                             prop="tableData.platform"
-                            label="上传平台">
+                            label="上传平台"
+                            width="100">
+                            <template slot-scope="scope">
+                                <span >{{ scope.row.platform == 1? '携程': '未知'}}</span>
+                            </template>
                         </el-table-column>
 
                         <el-table-column
                             prop="tableData.policyType"
-                            label="政策类型">
+                            label="政策类型"
+                            width="100">
+                            <template slot-scope="scope">
+                                <span >{{ scope.row.policyType }}</span>
+                            </template>
                         </el-table-column>
 
                         <el-table-column
                             prop="tableData.uploadType"
-                            label="上传方式">
+                            label="上传方式"
+                            width="100">
+                             <template slot-scope="scope">
+                                <span >{{ scope.row.uploadType == 1 ? '全量' : '未知'}}</span>
+                            </template>
                         </el-table-column>
 
                          <el-table-column
                             prop="tableData.allDoesStatus"
-                            label="全量进度">
+                            label="全量进度"
+                            width="100">
+                            <template slot-scope="scope">
+                                <span >{{ scope.row.allDoesStatus == 0 ? '未开始': '已完成'}}</span>
+                            </template>
                         </el-table-column>
 
                          <el-table-column
                             prop="tableData.policySource"
-                            label="政策来源">
+                            label="政策来源"
+                            width="100">
+                            <template slot-scope="scope">
+                                <span >{{ scope.row.policySource}}</span>
+                            </template>
                         </el-table-column>
 
                          <el-table-column
                             prop="tableData.scheduleTimes"
-                            label="已执行次数">
+                            label="已执行次数"
+                            width="100">
+                            <template slot-scope="scope">
+                                <span >{{ scope.row.scheduleTimes}}</span>
+                            </template>
                         </el-table-column>
 
                         <el-table-column
                             prop="tableData.status"
-                            label="状态">
+                            label="状态"
+                            width="100">
+                            <template slot-scope="scope">
+                                <span >{{ scope.row.status == 0 ? "未启用": "已启用"}}</span>
+                            </template>
                         </el-table-column>
 
                    
 
                         <el-table-column
                             prop="tableData.updateTime"
-                            label="最后修改时间">
+                            label="最后修改时间"
+                            width="200">
+                            <template slot-scope="scope">
+                                <span >{{ scope.row.updateTime}}</span>
+                            </template>
                         </el-table-column>
 
                 </el-table>
-         
-                    <button @click="getuploads(10,10)">展示</button>
+               
         </div>
+         <div>
+             <el-button  @click="addForm = true" id="addbtn">添加上传任务配置</el-button>
+         </div>
+            
+        <el-dialog title="添加上传" :visible="addForm" size="tiny" :modal-append-to-body='false' :close-on-press-escape="false" :close-on-click-modal="true" @close='closeDialog'>
+             <el-form ref="addsForm" :model="addsForm" label-width="130px">
+
+                    <el-form-item label="全量时间">
+                    <el-input v-model="addsForm.allDoesInterval"></el-input>
+                    </el-form-item>
+
+                    <el-form-item label="上传开始时间">
+                        <el-input
+                                autosize
+                                v-model="addsForm.uploadStartTime">
+                        </el-input>
+                    </el-form-item>
+
+
+                    <el-form-item label="上传结束时间">
+                    <el-input v-model="addsForm.uploadEndTime"></el-input>
+                    </el-form-item>
+
+                    <el-form-item label="上传平台">
+                    <el-input v-model="addsForm.platform"></el-input>
+                    </el-form-item>
+
+                    <el-form-item label="政策类型">
+                        <el-input v-model="addsForm.policyType"></el-input>
+                    </el-form-item>
+
+                    <el-form-item label="上传方式">
+                    <el-input v-model="addsForm.uploadType"></el-input>
+                    </el-form-item>
+
+                    <el-form-item label="全量进度">
+                    <el-input v-model="addsForm.allDoesStatus"></el-input>
+                    </el-form-item>
+
+                    <el-form-item label="政策来源">
+                    <el-input v-model="addsForm.policySource" ></el-input>
+                    </el-form-item>
+
+                    <el-form-item label="已执行次数">
+                    <el-input v-model="addsForm.scheduleTimes" ></el-input>
+                    </el-form-item>
+
+                    <el-form-item label="状态">
+                    <el-input v-model="addsForm.status" ></el-input>
+                    </el-form-item>
+
+                    <el-form-item label="最后修改时间">
+                    <el-input v-model="addsForm.updateTime" ></el-input>
+                    </el-form-item>
+
+                    
+                    <el-form-item>
+                        <el-button type="primary" @click="studentAdd">确定</el-button>
+                        <el-button @click="addsForm={},addForm = false">取消</el-button>
+                    </el-form-item>
+        </el-form>
+      </el-dialog>
     </div>
 </template>
 <script>
 // import Container from '@/components/common/containerone.vue';
-import {getupload} from '@/api/test'
+import {getupload,postupload,getuplaodtype} from '@/api/test'
+// 获取上传平台 
 export default {
     name:'shangchuan',
     components:{
       
     },
+    computed:{
+        
+    },
     data(){
         return{
    
-            tableData:{
+            tableDatas:{
                 allDoesInterval:'',  //间隔时间
                 allDoesStatus:'',      //0 未开始   1 已完成
                 allDoesTime:'',         //执行时间
@@ -100,17 +210,66 @@ export default {
                 uploadEndTime:'',    // 上传结束时间
                 uploadStartTime:'',   //上传开始时间
                 uploadType:'1'        //上传方式：1-全量
-             }
+             },
+             addsForm:{
+                 allDoesInterval:'',  //间隔时间
+                allDoesStatus:'',      //0 未开始   1 已完成
+                allDoesTime:'',         //执行时间
+                column2:'',
+                id:'',
+                platform:'',          //上传平台
+                policySource:'',     //来源  （官网）
+                policyType:'',       //政策类型
+                scheduleTimes:'',    //已执行次数
+                status:'',           //状态：0-未启用（默认），1-已启用
+                updateTime:'',       //example: yyyy-MM-dd HH:mm:ss 
+                uploadEndTime:'',    // 上传结束时间
+                uploadStartTime:'',   //上传开始时间
+                uploadType:'1'        //上传方式：1-全量
+             },
+             tableData:[],
+             addForm:false,
+             uploadtyep:[],
         }
     },
     methods:{
-        getuploads(num1,num2){
-            getupload(num1,num2).then(response => {
+        // getuploads(num1,num2){
+        //   return  getupload(num1,num2).then(response => {
+        //        this.tableData = response.data.data.records
+        //        console.log(this.tableData)
+        //     }).catch(err => {
+        //         console.log(err)
+        //     })
+        // }
+        // 添加  上传任务
+        // 点击X关闭
+        closeDialog(){
+            this.addForm= false
+        },
+        //点击确定添加上传
+        studentAdd(){
+            this.addForm= false
+            postupload(this.addsForm).then(response => {
                 console.log(response)
             }).catch(err => {
                 console.log(err)
             })
         }
+    },
+    async created(){
+        await getupload(10,1).then(response => {
+                 this.tableData = response.data.data.records
+               console.log(this.tableData)
+                }).catch(err => {
+                console.log(err)
+             })
+
+        //获取上传平台
+        await getuplaodtype().then(response => {
+            this.uploadtyep = response.data
+        }).catch(err => {
+            console.log(err)
+        })
     }
 }
 </script>
@@ -127,6 +286,29 @@ export default {
             .alltime1{
                 margin:0 20px 0 20px;
                 width:180px;
+            }
+        }
+
+          // 添加上传
+        .el-dialog{
+            width:800px;
+            height: 460px;
+            .el-dialog__body{
+                height:500px;
+                .el-form{
+                    display: flex;
+                    flex-wrap: wrap;
+                    .el-form-item{
+                        margin-bottom:1px;
+                        .el-form-item__content{
+                            height: 30px;
+                            .el-input__inner{
+                                height: 30px;
+                                width:82%;
+                            }
+                        }
+                    }
+                }
             }
         }
     }

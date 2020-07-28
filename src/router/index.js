@@ -436,11 +436,11 @@ export const constantRoutes = [
           component: () => import('@/views/controller/liudianconfig'),
           meta: { title: '留点配置'  }
         },
-        {
-          path:'/postliudian',
-          component: () => import('@/views/controller/postliudian'),
-          meta: { title: '修改留点配置'  }
-        },
+        // {
+        //   path:'/postliudian',
+        //   component: () => import('@/views/controller/postliudian'),
+        //   meta: { title: '修改留点配置'  }
+        // },
         {
           path:'/addpiaomianjia',
           component: () => import('@/views/controller/addpiaomianjia'),
@@ -450,6 +450,16 @@ export const constantRoutes = [
           path:'/filterconfig',
           component: () => import('@/views/controller/filterconfig'),
           meta: { title: '过滤配置'  }
+        },
+        {
+          path:'/postupload',
+          component: () => import('@/views/controller/postupload'),
+          meta: { title: '添加上传配置'  }
+        },
+        {
+          path:'/getgwcount',
+          component: () => import('@/views/controller/getgwcount'),
+          meta: { title: '官网座位数'  }
         }
       ]
     },

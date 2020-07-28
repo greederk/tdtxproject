@@ -12,7 +12,7 @@ const service = axios.create({
     //  headers: {'Content-type': 'application/json','access_token':this.token}
      headers: {'Content-type': 'application/json'}
 })
-service.defaults.headers.post['Content-type'] = 'application/json'
+// service.defaults.headers.post['Content-type'] = 'application/json'
 // service.defaults.headers.post['Content-type'] = 'application/x-www-form-urlencoded'
 
 // request interceptor

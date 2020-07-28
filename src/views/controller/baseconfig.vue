@@ -33,8 +33,8 @@
                 <tr>
                     <td class="td1" >官网是否上传共享航班</td>
                     <td>
-                         <el-radio  label="1" v-model="baseconfig.uploadShareFlight">是</el-radio>
-                        <el-radio  label="0" v-model="baseconfig.uploadShareFlight">否</el-radio>
+                         <el-radio  label="1" v-model="baseconfig.uploadShareFlight">1是</el-radio>
+                        <el-radio  label="0" v-model="baseconfig.uploadShareFlight">0否</el-radio>
                     </td>
                 </tr>
                  <tr>
@@ -46,31 +46,31 @@
                 <tr>
                     <td class="td1">上传政策方式</td>
                     <td>
-                      <el-radio v-model="baseconfig.uploadType" label="0">最低价</el-radio>
-                        <el-radio v-model="baseconfig.uploadType" label="1">最低价和次低价</el-radio>
-                        <el-radio v-model="baseconfig.uploadType" label="2">所有</el-radio>
+                      <el-radio v-model="baseconfig.uploadType" label="0">0最低价</el-radio>
+                        <el-radio v-model="baseconfig.uploadType" label="1">1最低价和次低价</el-radio>
+                        <el-radio v-model="baseconfig.uploadType" label="2">2所有</el-radio>
                     </td>
                 </tr>
                 <tr>
                     <td class="td1">下架数据方式</td>
                     <td>
-                      <el-radio v-model="baseconfig.stopType" label="0">按航线删除</el-radio>
-                        <el-radio v-model="baseconfig.stopType" label="1">按航司删除</el-radio>
+                      <el-radio v-model="baseconfig.stopType" label="0">0按航线删除</el-radio>
+                        <el-radio v-model="baseconfig.stopType" label="1">1按航司删除</el-radio>
                         <!-- <el-radio v-model="baseconfig.stopType" label="3">所有</el-radio> -->
                     </td>
                 </tr>
                  <tr>
                     <td class="td1">上传前是否下架</td>
                     <td>    
-                      <el-radio v-model="baseconfig.stopBeforeUpload" label="1">是</el-radio>
-                        <el-radio v-model="baseconfig.stopBeforeUpload" label="0">否</el-radio>
+                      <el-radio v-model="baseconfig.stopBeforeUpload" label="1">1是</el-radio>
+                        <el-radio v-model="baseconfig.stopBeforeUpload" label="0">0否</el-radio>
                     </td>
                 </tr>
                 <tr>
                     <td class="td1">是否比价</td>
                     <td>    
-                      <el-radio v-model="baseconfig.comparePrice" label="1">是</el-radio>
-                        <el-radio v-model="baseconfig.comparePrice" label="0">否</el-radio>
+                      <el-radio v-model="baseconfig.comparePrice" label="1">1是</el-radio>
+                        <el-radio v-model="baseconfig.comparePrice" label="0">0否</el-radio>
                     </td>
                 </tr>
                 <tr>
@@ -83,8 +83,8 @@
                 <tr>
                     <td class="td1">是否上传当天政策</td>
                     <td>    
-                    <el-radio v-model="baseconfig.sameDayPolicy" label="1">是</el-radio>
-                        <el-radio v-model="baseconfig.sameDayPolicy" label="0">否</el-radio>
+                    <el-radio v-model="baseconfig.sameDayPolicy" label="1">1是</el-radio>
+                        <el-radio v-model="baseconfig.sameDayPolicy" label="0">0否</el-radio>
                     </td>
                 </tr>
                 <tr>
@@ -97,7 +97,7 @@
                 <tr>
                     <td class="td1">上传比价数据时间限制</td>
                     <td>    
-                         <el-input class="input_all" v-model="baseconfig.comparePriceStartDate"></el-input> 到 <el-input class="input_all" v-model="baseconfig.comparePriceEndDate"></el-input >
+                         <el-input class="input_all" v-model="baseconfig.comparePriceStartDate" placeholder="2020-07-07"></el-input> 到 <el-input class="input_all" v-model="baseconfig.comparePriceEndDate" placeholder="2020-07-08"></el-input >
 
                     </td>
                 </tr>
@@ -166,7 +166,7 @@ export default {
                 differenceFdOfficial:'',   //fd运价过滤
                 maxLoss:'' ,  //str   最大亏损值
                 useFdPrice:'' ,   //取FD运价上传航司
-                id:''
+                id:'1'
 
             }
         }
@@ -181,6 +181,7 @@ export default {
     methods:{
          postbase(data){
          return   postbaseconfig(data).then((response)=> {
+                        console.log(data,typeof(data))
                         console.log('成功提交：' +response)
                     }).catch(error => {
                         console.log(error)
