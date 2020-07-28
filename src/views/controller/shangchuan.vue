@@ -40,6 +40,15 @@
                         </el-table-column>
 
                         <el-table-column
+                            prop="tableData.uploadEndTime"
+                            label="执行时间"
+                            width="100">
+                             <template slot-scope="scope">
+                                <span >{{ scope.row.allDoesTime}}</span>
+                            </template>
+                        </el-table-column>
+
+                        <el-table-column
                             prop="tableData.platform"
                             label="上传平台"
                             width="100">
@@ -124,47 +133,51 @@
              <el-form ref="addsForm" :model="addsForm" label-width="130px">
 
                     <el-form-item label="全量时间">
-                    <el-input v-model="addsForm.allDoesInterval"></el-input>
+                    <el-input v-model="addsForm.allDoesInterval" placeholder="2"></el-input>
                     </el-form-item>
 
                     <el-form-item label="上传开始时间">
                         <el-input
                                 autosize
-                                v-model="addsForm.uploadStartTime">
+                                v-model="addsForm.uploadStartTime" placeholder="12:00">
                         </el-input>
                     </el-form-item>
 
 
                     <el-form-item label="上传结束时间">
-                    <el-input v-model="addsForm.uploadEndTime"></el-input>
+                    <el-input v-model="addsForm.uploadEndTime" placeholder="15:00"></el-input>
+                    </el-form-item>
+
+                    <el-form-item label="执行时间">
+                    <el-input v-model="addsForm.allDoesTime	" placeholder="12:15"></el-input>
                     </el-form-item>
 
                     <el-form-item label="上传平台">
-                    <el-input v-model="addsForm.platform"></el-input>
+                    <el-input v-model="addsForm.platform" placeholder="1(携程)"></el-input>
                     </el-form-item>
 
                     <el-form-item label="政策类型">
-                        <el-input v-model="addsForm.policyType"></el-input>
+                        <el-input v-model="addsForm.policyType" placeholder="101"></el-input>
                     </el-form-item>
 
                     <el-form-item label="上传方式">
-                    <el-input v-model="addsForm.uploadType"></el-input>
+                    <el-input v-model="addsForm.uploadType"   placeholder="1(全量)"></el-input>
                     </el-form-item>
 
                     <el-form-item label="全量进度">
-                    <el-input v-model="addsForm.allDoesStatus"></el-input>
+                    <el-input v-model="addsForm.allDoesStatus" placeholder="默认0(未开始);1已完成"></el-input>
                     </el-form-item>
 
                     <el-form-item label="政策来源">
-                    <el-input v-model="addsForm.policySource" ></el-input>
+                    <el-input v-model="addsForm.policySource" placeholder="官网"></el-input>
                     </el-form-item>
 
                     <el-form-item label="已执行次数">
-                    <el-input v-model="addsForm.scheduleTimes" ></el-input>
+                    <el-input v-model="addsForm.scheduleTimes" placeholder="0"></el-input>
                     </el-form-item>
 
                     <el-form-item label="状态">
-                    <el-input v-model="addsForm.status" ></el-input>
+                    <el-input v-model="addsForm.status" placeholder="0(未启用)；1已启用"></el-input>
                     </el-form-item>
 
                     <el-form-item label="最后修改时间">
@@ -267,6 +280,7 @@ export default {
         //获取上传平台
         await getuplaodtype().then(response => {
             this.uploadtyep = response.data
+            console.log(this.uploadtyep)
         }).catch(err => {
             console.log(err)
         })
