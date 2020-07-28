@@ -124,9 +124,20 @@
 
                 </el-table>
                
+               
         </div>
+
          <div>
-             <el-button  @click="addForm = true" id="addbtn">添加上传任务配置</el-button>
+          <el-pagination
+                    @size-change="handleSizeChange"
+                    @current-change="handleCurrentChange"
+                    :current-page="currentPage"
+                    :page-sizes="[10, 20, 30, 40]"
+                    :page-size="pagesize"
+                    layout="total, sizes, prev, pager, next, jumper"
+                    :total="40">
+                </el-pagination>
+             <el-button  @click="getnewtimes(),addForm = true" id="addbtn">添加上传任务配置</el-button>
          </div>
             
         <el-dialog title="添加上传" :visible="addForm" size="tiny" :modal-append-to-body='false' :close-on-press-escape="false" :close-on-click-modal="true" @close='closeDialog'>
@@ -194,20 +205,23 @@
     </div>
 </template>
 <script>
-// import Container from '@/components/common/containerone.vue';
+import moment from 'moment'
+
 import {getupload,postupload,getuplaodtype} from '@/api/test'
 // 获取上传平台 
 export default {
     name:'shangchuan',
     components:{
-      
+        
     },
     computed:{
-        
+       datatime(){
+          return moment().format('YYYY-MM-DD HH:mm:ss ')
+       }
     },
     data(){
         return{
-   
+           createTime:'',
             tableDatas:{
                 allDoesInterval:'',  //间隔时间
                 allDoesStatus:'',      //0 未开始   1 已完成
@@ -243,9 +257,17 @@ export default {
              tableData:[],
              addForm:false,
              uploadtyep:[],
+            //  当前页数  默认1
+            currentPage:1,
+            pagesize:10,
         }
     },
     methods:{
+        getnewtimes(){
+            let newtime = moment().format('YYYY-MM-DD HH:mm:ss')
+            console.log(newtime)
+            this.addsForm.updateTime = newtime
+        },
         // getuploads(num1,num2){
         //   return  getupload(num1,num2).then(response => {
         //        this.tableData = response.data.data.records
@@ -263,11 +285,45 @@ export default {
         studentAdd(){
             this.addForm= false
             postupload(this.addsForm).then(response => {
-                console.log(response)
+                // code=0,data=200
+                // console.log(response)
+            
+                    console.log(response)
+                     this.$notify({
+                        title: '成功',
+                        message: '添加成功',
+                        type: 'success',
+                        duration:1500
+                    });
+                
             }).catch(err => {
                 console.log(err)
             })
-        }
+        },
+
+         // 分页组件
+        handleSizeChange(val) {
+        // 每页展示多少条改变时触发，val是改变成的值
+            this.pagesize=val;
+            this.currentPage=1;
+            // this.getdata(this.currentPage,this.pagesize)
+            getupload(this.pagesize,this.currentPage).then(response => {
+                 this.tableData = response.data.data.records
+            //    console.log(this.tableData)
+                }).catch(err => {
+                console.log(err)
+             })
+        },
+         handleCurrentChange(val) {
+            //   页数改变时触发
+            this.currentPage=val
+            getupload(this.pagesize,this.currentPage).then(response => {
+                 this.tableData = response.data.data.records
+            //    console.log(this.tableData)
+                }).catch(err => {
+                console.log(err)
+             })
+        },
     },
     async created(){
         await getupload(10,1).then(response => {

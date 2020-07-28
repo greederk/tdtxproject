@@ -89,6 +89,15 @@ export function postgwcount(data){
   })
 }
 
+// 更新官网座位数
+export function putgwcount(data){
+  return request({
+    url:"/td/seatCountConfig/updateSeatCountConfig",
+    method:'put',
+    data
+  })
+}
+
 
 //获取政策类型   
 export function getpolicy(id){
@@ -96,5 +105,13 @@ export function getpolicy(id){
     url:`/api/td/PolicyType/selectPolicyTypeByPlatformId/${id}`,
     method:"get",
     // 可用参数 1/2     //data：特惠、普通、规则运价
+  })
+}
+
+// 获取ip代理
+export function getips(){
+  return request({
+    url:"/api/ip/get",
+    method:'get'
   })
 }

@@ -15,12 +15,14 @@ export default {
 <style lang="scss">
     .navheaderC{
         width:100%;
-        height:1800px;
+        min-height:calc(100vh - 50px);
+        // height:1800px;
         position:fixed;
         left: var(--width--sidebar);
         top:60px;
         background: #fff;
-        padding-left:10px
+        padding-left:10px;
+        overflow:auto;
     }
 .fade-enter-active,
 .fade-leave-active {

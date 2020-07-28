@@ -19,6 +19,12 @@ export default {
     mounted(){
         getController().then((res)=>{
             this.datas = res.data
+             this.$notify({
+                        title: '成功',
+                        message: '添加成功',
+                        type: 'success',
+                        duration:1000
+                    });
         })
        
     },

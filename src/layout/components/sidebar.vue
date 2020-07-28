@@ -423,6 +423,10 @@ export default {
                          {
                             path:'/getgwcount',
                             title:"官网座位数"
+                        },
+                        {
+                            path:'/getip',
+                            title:"获取代理ip"
                         }
                     ]
                 },
@@ -463,7 +467,7 @@ export default {
     .siderbarc{
         width: var( --width--sidebar);
         // min-width: var( --width--sidebar);
-        height: 100%;
+        height:1200px;
         background:rgb(48, 65, 86);
         position: fixed;
         top:0px;

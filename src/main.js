@@ -1,9 +1,10 @@
 import Vue from 'vue'
 import App from './App.vue'
-import {Button,Menu,Submenu,MenuItem,MenuItemGroup,Row,Col,Input,Dropdown,DropdownMenu,DropdownItem,TableColumn,Table,Radio,DatePicker,Select,Option,Pagination,Checkbox,CheckboxGroup,Form,FormItem,Loading,Dialog} from 'element-ui'
+import {Button,Menu,Submenu,MenuItem,MenuItemGroup,Row,Col,Input,Dropdown,DropdownMenu,DropdownItem,TableColumn,Table,Radio,DatePicker,Select,Option,Pagination,Checkbox,CheckboxGroup,Form,FormItem,Loading,Dialog,Notification} from 'element-ui'
 import router from './router'
 import store from '@/store'
 Vue.config.productionTip = false
+
 
 import '@/assets/css/base.scss'
 import '@/assets/icon/index.js';
@@ -31,6 +32,11 @@ Vue.use(Form)
 Vue.use(FormItem)
 Vue.use(Loading)
 Vue.use(Dialog)
+
+
+Vue.prototype.$notify = Notification;
+
+
 
 new Vue({
   store,

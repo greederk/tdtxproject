@@ -126,6 +126,16 @@
                             </template>
                         </el-table-column>
 
+                         <el-table-column
+                           type="input"
+                            width="130"
+                            label="修改时间"
+                        >
+                            <template  slot-scope="scope">
+                                <span>{{scope.row.updateTime}}</span>
+                            </template>
+                        </el-table-column>
+
                         <el-table-column
                            type="input"
                             width="150"
@@ -146,24 +156,99 @@
 
                 </el-table>
                 <!-- <el-button @click="getgwcounts(10,1)">添加官网座位数</el-button> -->
-                <el-button @click="postgwcounts({})">添加官网座位数</el-button>
+                <el-button @click="postgwcounts()">添加官网座位数</el-button>
+        
+         <el-dialog title="修改官网座位数" :visible="editgwForm" size="tiny" :modal-append-to-body='false' :close-on-press-escape="false" :close-on-click-modal="true" @close='closeDialog'>
+             <el-form ref="editgwForms" :model="editgwForms" label-width="130px">
+
+                    <el-form-item label="航司">
+                        <el-input v-model="addgwForms.carrier" placeholder="MU"></el-input>
+                    </el-form-item>
+
+                    <el-form-item label="逗号分隔开的数字">
+                        <el-input
+                                autosize
+                                v-model="addgwForms.seatCount" placeholder="12,23,34,45,56,67,78,89,99">
+                        </el-input>
+                    </el-form-item>
+
+                    <el-form-item label="修改时的时间">
+                        <el-input
+                                autosize
+                                v-model="addgwForms.updateTime" placeholder="12:00">
+                        </el-input>
+                    </el-form-item>
+
+
+                     <el-form-item>
+                        <el-button type="primary" @click="addgwclick">确定</el-button>
+                        <el-button @click="addgwForms={},addgwForm = false">取消</el-button>
+                    </el-form-item>
+
+             </el-form>
+         </el-dialog>
+
+         <el-dialog title="添加官网座位数" :visible="addgwForm" size="tiny" :modal-append-to-body='false' :close-on-press-escape="false" :close-on-click-modal="true" @close='closeDialog'>
+             <el-form ref="addgwForms" :model="addgwForms" label-width="130px">
+
+                    <el-form-item label="航司">
+                        <el-input v-model="addgwForms.carrier" placeholder="MU"></el-input>
+                    </el-form-item>
+
+                    <el-form-item label="逗号分隔开的数字">
+                        <el-input
+                                autosize
+                                v-model="addgwForms.seatCount" placeholder="12,23,34,45,56,67,78,89,99">
+                        </el-input>
+                    </el-form-item>
+
+                    <el-form-item label="修改时的时间">
+                        <el-input
+                                autosize
+                                v-model="addgwForms.updateTime" placeholder="12:00">
+                        </el-input>
+                    </el-form-item>
+
+
+                     <el-form-item>
+                        <el-button type="primary" @click="addgwclick">确定</el-button>
+                        <el-button @click="addgwForms={},addgwForm = false">取消</el-button>
+                    </el-form-item>
+
+        </el-form>
+      </el-dialog>
+
     </div>
 </template>
 <script>
-import {getgwcount,postgwcount} from '@/api/test';
-
+import {getgwcount,postgwcount,putgwcount} from '@/api/test';
+import moment from 'moment'
 export default {
     name:"getgwcount",
     data(){
         return {
         
-           tabindex:'',
+            tabindex:'',
             counts:[],
             tableData:[],
+            length:0,
+            addgwForms:{
+                carrier:'',
+                id:length+1,
+                seatCount:'',
+                updateTime:''
+            },
+            editgwForms:{
+                carrier:'',
+                id:length+1,
+                seatCount:'',
+                updateTime:''
+            },
                 // carrier:'',
                 // seatCount:'',
                 // id:'',
                 // updateTime:'', 
+            addgwForm:false,
            
         }
     },
@@ -171,10 +256,16 @@ export default {
        
          await  getgwcount(10,1).then(res=>{
             this.tableData = res.data.data.records
+            this.length = res.data.total
             console.log(this.tableData)
         })
     },
     methods:{
+        // 点击X关闭添加框
+          closeDialog(){
+            this.addgwForm= false
+            this.editgwForm = false
+        },
         getgwcounts(n1,n2){
             getgwcount(n1,n2).then(res=>{
             this.tableData = res.data.data.records
@@ -187,12 +278,28 @@ export default {
             handleDelete(index,row){
                   console.log(index, row);
             },
+        // 添加按钮
         postgwcounts(data){
-            postgwcount(data).then(response=>{
-                console.log(response)
-            }).catch(err=>{
-                console.log(err)
-            })
+           
+                this.addgwForm = true
+                let newtime = moment().format('YYYY-MM-DD HH:mm:ss')
+                this.addgwForms.updateTime = newtime
+               
+          
+        },
+        // 点击修改的确定按钮
+        addgwclick(){
+            this.addgwForm =false
+           postgwcount(this.addgwForms).then(res => {
+                this.$notify({
+                        title: '成功',
+                        message: '添加成功',
+                        type: 'success',
+                        duration:1500
+                    });
+           }).cathc(err => {
+               console.log(err)
+           })
         }
     }
 }
