@@ -451,11 +451,11 @@ export const constantRoutes = [
           component: () => import('@/views/controller/filterconfig'),
           meta: { title: '过滤配置'  }
         },
-        {
-          path:'/postupload',
-          component: () => import('@/views/controller/postupload'),
-          meta: { title: '添加上传配置'  }
-        },
+        // {
+        //   path:'/postupload',
+        //   component: () => import('@/views/controller/postupload'),
+        //   meta: { title: '添加上传配置'  }
+        // },
         {
           path:'/getgwcount',
           component: () => import('@/views/controller/getgwcount'),
@@ -465,6 +465,16 @@ export const constantRoutes = [
           path:'/getip',
           component: () => import('@/views/controller/getip'),
           meta: { title: '获取代理ip'  }
+        },
+        {
+          path:'/tgqconfig',
+          component: () => import('@/views/controller/tgqconfig'),
+          meta: { title: '退改签配置'  }
+        },
+        {
+          path:'/xingliconfig',
+          component: () => import('@/views/controller/xingliconfig'),
+          meta: { title: '行李额配置'  }
         }
       ]
     },

@@ -64,6 +64,15 @@ export function postliudain(data){
   })
 }
 
+// 删除留点  
+export function deletelidian(id){
+  return request({
+    url:'/api/td/priceConfig/deletes',
+    method:'delete',
+    id
+  })
+}
+
 //过滤配置展示   /td/filterConfig/list/{pageSize}/{currentPage}
 export function getfilter(pagesize,currentpage){
   return request({
@@ -92,7 +101,7 @@ export function postgwcount(data){
 // 更新官网座位数
 export function putgwcount(data){
   return request({
-    url:"/td/seatCountConfig/updateSeatCountConfig",
+    url:"/api/td/seatCountConfig/updateSeatCountConfig",
     method:'put',
     data
   })
@@ -113,5 +122,110 @@ export function getips(){
   return request({
     url:"/api/ip/get",
     method:'get'
+  })
+}
+
+//获取票面价加价配置
+export function getaddpiaomj(pageSize,currentPage){
+  return request({
+    url:`/api/td/printPriceConfig/list/${pageSize}/${currentPage}`,
+    method:'get'
+  })
+}
+
+// 修改票面价加价配置  
+export function putpiaomianj(data){
+  return request({
+    url:'/api/td/printPriceConfig/updatePrintPriceConfig',
+    method:'put',
+    data
+  })
+}
+
+// 删除票面价加价配置
+export function deletepiaomj(data){
+  return request({
+    url:'/api/td/printPriceConfig/deleteBatch',
+    method:'delete',
+    data 
+  })
+}
+
+//添加票面价设置
+export function postpiaomj(data){
+  return request({
+    url:'/api/td/printPriceConfig/savePrintPriceConfig',
+    method:'post',
+    data
+  })
+}
+
+// 获取退改签配置
+export function gettgqconfig(pageSize,currentPage){
+  return request({
+    url:`/api/td/tgqConfig/list/${pageSize}/${currentPage}`,
+    method:'get'
+  })
+}
+
+// 添加退改签 配置
+export function posttgqconfig(data){
+  return request({
+    url:"/api/td/tgqConfig/save",
+    method:"post",
+    data
+  })
+}
+
+// 删除退改签配置 
+export function deletetgqconfig(data){
+  return request({
+    url:"/api/td/tgqConfig/deleteBatchByIds",
+    method:'delete',
+    data
+  })
+}
+
+//修改退改签配置  
+export function puttgqconfig(data){
+  return request({
+    url:'/api/td/tgqConfig/updateTgqConfig',
+    method:"put",
+    data
+  })
+}
+
+// 获取行李额配置 
+export function getxingliconfig(pageSize,currentPage){
+  return request({
+    url:`/api/td/specialRuleConfig/list/${pageSize}/${currentPage}`,
+    method:'get'
+  })
+}
+
+//修改行李额配置  
+export function putxingliconfig(data){
+  return request({
+    url:'/api/td/specialRuleConfig/updateSpecialRuleConfigMapper',
+    method:'put',
+    data
+  })
+}
+
+// 刪除行李额配置
+export function deletexingliconfig(data){
+  return request({
+    url:'/api/td/specialRuleConfig/deleteBatchByIds',
+    method:'delete',
+    data
+  })
+}
+
+// 添加行李额配置
+export function postxingliconfig(data){
+  return request({
+    url:'/api/td/specialRuleConfig/save',
+    method:"post",
+    data
   })
 }

@@ -287,14 +287,15 @@ export default {
             postupload(this.addsForm).then(response => {
                 // code=0,data=200
                 // console.log(response)
-            
-                    console.log(response)
+                if(response.status == 200 ){
+                  
                      this.$notify({
                         title: '成功',
                         message: '添加成功',
                         type: 'success',
                         duration:1500
                     });
+                }
                 
             }).catch(err => {
                 console.log(err)

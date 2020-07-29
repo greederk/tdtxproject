@@ -427,6 +427,14 @@ export default {
                         {
                             path:'/getip',
                             title:"获取代理ip"
+                        },
+                        {
+                            path:'/tgqconfig',
+                            title:"退改签配置"
+                        },
+                        {
+                            path:'/xingliconfig',
+                            title:"行李额配置"
                         }
                     ]
                 },

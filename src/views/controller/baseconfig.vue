@@ -182,7 +182,16 @@ export default {
          postbase(data){
          return   postbaseconfig(data).then((response)=> {
                         console.log(data,typeof(data))
-                        console.log('成功提交：' +response)
+                        // console.log('成功提交：' +response)
+                        if(response.status == 200){
+                             this.$notify({
+                                title: '成功',
+                                message: '添加配置成功',
+                                type: 'success',
+                                duration:1500
+                    });
+                        }
+
                     }).catch(error => {
                         console.log(error)
                     })

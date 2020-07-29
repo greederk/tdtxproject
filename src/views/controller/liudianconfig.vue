@@ -99,7 +99,7 @@
                             width="80">
                              <template slot-scope="scope">
                                
-                                <span >{{ scope.row.sameDay}}</span>
+                                <span >{{ scope.row.sameDay == 0 ? '否' : '是'}}</span>
                             </template>
                         </el-table-column>
 
@@ -109,7 +109,7 @@
                             width="80">
                             <template slot-scope="scope">
                                
-                                <span >{{ scope.row.official}}</span>
+                                <span >{{ scope.row.official == 0 ? '否' : '是'}}</span>
                             </template>
                         </el-table-column>
 
@@ -169,13 +169,13 @@
                             label="操作"
                         >
                              <template slot-scope="scope">
-                                <el-button
+                                <!-- <el-button
                                 size="mini"
-                                @click="handleEdit(scope.$index, scope.row),editstudentForm=true">编辑</el-button>
+                                @click="handleEdit(scope.$index, scope.row)">编辑</el-button> -->
                                 <el-button
                                 size="mini"
                                 type="danger"
-                                @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+                                @click="handleDeleteliudian(scope.$index, scope.row)">删除</el-button>
                             </template>
                         </el-table-column>
 
@@ -260,7 +260,7 @@
                 </el-form-item>
 
                 <el-form-item>
-                    <el-button type="primary" @click="studentcEdit">确定</el-button>
+                    <el-button type="primary" @click="Editliudclikc">确定</el-button>
                     <el-button @click="editstudentForm = false">取消</el-button>
                 </el-form-item>
             </el-form>
@@ -272,7 +272,7 @@
              <el-form ref="addsForm" :model="addsForm" label-width="130px">
 
              <el-form-item label="航司">
-                  <el-input v-model="addsForm.carrier"></el-input>
+                  <el-input v-model="addsForm.carrier" placeholder="MU"></el-input>
                 </el-form-item>
 
                 <el-form-item label="匹配航线">
@@ -280,13 +280,13 @@
                     <el-input
                         
                             autosize
-                            v-model="addsForm.airRoute">
+                            v-model="addsForm.airRoute" placeholder="可不填">
                     </el-input>
                 </el-form-item>
 
 
                 <el-form-item label="航班号">
-                 <el-input v-model="addsForm.flightNum"></el-input>
+                 <el-input v-model="addsForm.flightNum" ></el-input>
                 </el-form-item>
 
                 <el-form-item label="匹配舱位">
@@ -310,19 +310,19 @@
                 </el-form-item>
 
                 <el-form-item label="只匹配当日留点">
-                <el-input v-model="addsForm.sameDay" ></el-input>
+                <el-input v-model="addsForm.sameDay" placeholder="0:否;  1:是"></el-input>
                 </el-form-item>
 
                 <el-form-item label="是否匹配航司数据">
-                <el-input v-model="addsForm.official" ></el-input>
+                <el-input v-model="addsForm.official" placeholder="0:否;  1:是"></el-input>
                 </el-form-item>
 
                 <el-form-item label="官网产品类型">
-                <el-input v-model="addsForm.officialProductType" ></el-input>
+                <el-input v-model="addsForm.officialProductType" placeholder="所有产品"></el-input>
                 </el-form-item>
 
                 <el-form-item label="匹配航班类型">
-                <el-input v-model="addsForm.flightType" ></el-input>
+                <el-input v-model="addsForm.flightType" placeholder="0:主飞 ; 1:共享"></el-input>
                 </el-form-item>
 
                 <el-form-item label="旅行有效期开始">
@@ -344,10 +344,18 @@
         </el-form>
       </el-dialog>
 
+       <el-dialog title="删除留点" :visible="deleteliudianform" size="tiny" :modal-append-to-body='false' :close-on-press-escape="false" :close-on-click-modal="true" @close='closeDialog' width="150" 
+         class="edformdele">
+               
+                    <el-button type="primary" @click="deleteliudian" class="quedingdelete">确定删除</el-button>
+                    <el-button @click="cleardelete(),addstudentForm = false">取消</el-button>
+               
+        </el-dialog>
+
     </div>
 </template>
 <script>
-import {getliudian,postliudain} from '@/api/test'
+import {getliudian,postliudain,deletelidian} from '@/api/test'
 export default {
     name:'liudianconfig',
     data(){
@@ -409,6 +417,8 @@ export default {
              tableData:[],
              editstudentForm:false,
              addstudentForm:false,
+             deleteliudianform:false,
+             deteleid:[],
         }
 
     },
@@ -421,14 +431,34 @@ export default {
                 console.log(err)
             })
         },
+        // 修改留点 确定按钮
+        Editliudclikc(){   //现在不可修改操作
+            // postliudain(this.editsForm).then(res => {
+            //     if(res.status == 200 ){
+            //            this.$notify({
+            //             title: '成功',
+            //             message: '修改成功',
+            //             type: 'success',
+            //             duration:1500
+            //         });
+            //     }
+            // }).catch(err => {
+            //        this.$notify({
+            //             title: '成功',
+            //             message: '操作失败'+err,
+            //             type: 'success',
+            //             duration:1500
+            //         });
+            // })
+        },
        handleEdit(row,id){
 
             this.editsForm = Object.assign({}, id);  //获得所有数据显示在编辑信息模态框里面
-            console.log(row,id,this.editsForm)
+         
 
         },
         handleDelete(index,row){
-            console.log(index,row)
+          
         },
         // 点击编辑   确定
         studentcEdit(){
@@ -443,9 +473,12 @@ export default {
             // 点击x号关闭
             this.addstudentForm =false ;
             this.editstudentForm = false;
+            this.deleteliudianform = false
             // this.rowDetailed=false;
         },
-
+        cleardelete(){
+            this.deleteliudianform = false
+        },
         //添加配置
         //  // 点击取消清空数据
         clearstudent(){
@@ -454,22 +487,59 @@ export default {
         },
         // 点击添加留点 确定  发送请求
         studentAdd(){
-            // var mes ='';
-            this.addstudentForm=false;
-            
-            postliudain(this.addsForm).then(res => {
-                console.log(res)
+
+           postliudain(this.addsForm).then(res => {
+                if(res.status == 200 ){
+                    this.addstudentForm=false;
+                    this.addsForm = {}
+                       this.$notify({
+                        title: '成功',
+                        message: '修改成功',
+                        type: 'success',
+                        duration:1500
+                    });
+                }
+            }).catch(err => {
+                   this.$notify({
+                        title: '成功',
+                        message: '操作失败'+err,
+                        type: 'success',
+                        duration:1500
+                    });
+            })
+        },
+
+        // 删除留点
+        handleDeleteliudian(index,row){
+            console.log(row.id)
+            this.deleteliudianform= true
+            this.deteleid.push(row.id)
+            console.log(this.deteleid)
+        },
+        //点击确定删除
+        deleteliudian(){
+            deletelidian(this.deteleid).then(res => {
+              if(res.status ==200){
+                  this.deleteliudianform= false
+                  this.deteleid = []
+                       this.$notify({
+                        title: '成功',
+                        message: '删除成功',
+                        type: 'success',
+                        duration:1500
+                    });
+              }
             }).catch(err => {
                 console.log(err)
             })
-                this.addsForm={};
-                // this.getdata(this.currentPage,this.pagesize)
         }
+
     },
      async  created(){
        await getliudian(10,1).then(res =>{
            console.log(res)
-            this.tableData = res.data.data.records
+           const ts = res.data.data.records
+            this.tableData =ts
        }).catch(err => {
            console.log(err)
        })
@@ -499,6 +569,17 @@ export default {
                     }
                 }
             }
+        }
+        .edformdele{
+            // width:300px;
+            // height: 100px;
+             .el-dialog{
+            width:300px;
+            height: 160px;
+                .quedingdelete{
+                    margin-right:50px;
+                }
+             }
         }
     }
 </style>

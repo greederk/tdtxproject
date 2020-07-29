@@ -8,10 +8,15 @@
                     stripe
                     style="width: 100%">
 
-                        <el-table-column
-                           type="selection"
-                            width="55"
-                        >
+                       <el-table-column
+                            prop="tableData.allDoesInterval"
+                            label="id"
+                            align="center"
+                            width="50">
+                             <template slot-scope="scope">
+                               
+                                <span >{{ scope.row.id}}</span>
+                            </template>
                         </el-table-column>
                         <el-table-column
                             prop="tableData.allDoesInterval"
@@ -31,7 +36,7 @@
                         >
                             <template  slot-scope="scope">
                                
-                               <el-input size="small" v-model="scope.row.seatCount.split(',')[1]" placeholder="请输入内容" @change="handleEdit(scope.row.seatCount.split(',')[1])"></el-input> 
+                               <el-input size="small" v-model="scope.row.seatCount.split(',')[0]" ></el-input> 
                             </template>
                         </el-table-column>
 
@@ -144,7 +149,7 @@
                              <template slot-scope="scope">
                                 <el-button
                                 size="mini"
-                                @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+                                @click="handleEdit(scope.$index, scope.row)">修改</el-button>
                                 <el-button
                                 size="mini"
                                 type="danger"
@@ -161,28 +166,33 @@
          <el-dialog title="修改官网座位数" :visible="editgwForm" size="tiny" :modal-append-to-body='false' :close-on-press-escape="false" :close-on-click-modal="true" @close='closeDialog'>
              <el-form ref="editgwForms" :model="editgwForms" label-width="130px">
 
+                    <el-form-item label="id">
+                        <span>{{editgwForms.id}}</span>
+                        <!-- <el-input v-model="editgwForms.id" ></el-input> -->
+                    </el-form-item>
+
                     <el-form-item label="航司">
-                        <el-input v-model="addgwForms.carrier" placeholder="MU"></el-input>
+                        <el-input v-model="editgwForms.carrier" ></el-input>
                     </el-form-item>
 
                     <el-form-item label="逗号分隔开的数字">
                         <el-input
                                 autosize
-                                v-model="addgwForms.seatCount" placeholder="12,23,34,45,56,67,78,89,99">
+                                v-model="editgwForms.seatCount">
                         </el-input>
                     </el-form-item>
 
                     <el-form-item label="修改时的时间">
                         <el-input
                                 autosize
-                                v-model="addgwForms.updateTime" placeholder="12:00">
+                                v-model="editgwForms.updateTime" >
                         </el-input>
                     </el-form-item>
 
 
                      <el-form-item>
-                        <el-button type="primary" @click="addgwclick">确定</el-button>
-                        <el-button @click="addgwForms={},addgwForm = false">取消</el-button>
+                        <el-button type="primary" @click="editgwclick">确定</el-button>
+                        <el-button @click="editgwForms={},editgwForm = false">取消</el-button>
                     </el-form-item>
 
              </el-form>
@@ -240,7 +250,7 @@ export default {
             },
             editgwForms:{
                 carrier:'',
-                id:length+1,
+                id:'',
                 seatCount:'',
                 updateTime:''
             },
@@ -249,6 +259,7 @@ export default {
                 // id:'',
                 // updateTime:'', 
             addgwForm:false,
+            editgwForm:false,
            
         }
     },
@@ -272,12 +283,41 @@ export default {
             console.log(this.tableData)
         })
         },
+        // 点击修改
           handleEdit(index, row) {
-                console.log(index, row);
+              this.editgwForm = true
+              this.editgwForms = Object.assign({}, row)
+                
             },
-            handleDelete(index,row){
+        // 点击确定提交 修改
+       async editgwclick(){
+            
+           await putgwcount(this.editgwForms).then(response => {
+            //    console.log(response)
+             if(response.status == 200){
+                //  console.log(response)
+                 this.editgwForm = false
+
+                 this.editgwForms = {}
+                  this.$notify({
+                        title: '成功',
+                        message: '修改官网座位数成功',
+                        type: 'success',
+                        duration:1500
+                    });
+             }
+            }).catch(err =>{
+                 this.$notify({
+                        title: '成功',
+                        message: '操作失败'+err,
+                        type: 'success',
+                        duration:1500
+                    });
+            })
+        },
+        handleDelete(index,row){
                   console.log(index, row);
-            },
+        },
         // 添加按钮
         postgwcounts(data){
            
@@ -289,14 +329,18 @@ export default {
         },
         // 点击修改的确定按钮
         addgwclick(){
-            this.addgwForm =false
+            
            postgwcount(this.addgwForms).then(res => {
+               if(res.status == 200 ){
+                   this.addgwForm =false
+                   this.addgwForms = {}
                 this.$notify({
                         title: '成功',
                         message: '添加成功',
                         type: 'success',
                         duration:1500
                     });
+               }
            }).cathc(err => {
                console.log(err)
            })
