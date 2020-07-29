@@ -11,7 +11,7 @@
 
                         <el-table-column
                             prop="tableData.allDoesInterval"
-                            label="全量时间（h）"
+                            label="全量间隔时间（h）"
                             align="center"
                             width="120">
                              <template slot-scope="scope">
@@ -53,7 +53,7 @@
                             label="上传平台"
                             width="100">
                             <template slot-scope="scope">
-                                <span >{{ scope.row.platform == 1? '携程': '未知'}}</span>
+                                <span >{{ scope.row.platform  }}</span>
                             </template>
                         </el-table-column>
 
@@ -71,7 +71,7 @@
                             label="上传方式"
                             width="100">
                              <template slot-scope="scope">
-                                <span >{{ scope.row.uploadType == 1 ? '全量' : '未知'}}</span>
+                                <span >{{ scope.row.uploadType == 1 ? '全量' : scope.row.uploadType}}</span>
                             </template>
                         </el-table-column>
 
@@ -137,7 +137,7 @@
                     layout="total, sizes, prev, pager, next, jumper"
                     :total="40">
                 </el-pagination>
-             <el-button  @click="getnewtimes(),addForm = true" id="addbtn">添加上传任务配置</el-button>
+             <el-button  @click="addForm = true" id="addbtn">添加上传任务配置</el-button>
          </div>
             
         <el-dialog title="添加上传" :visible="addForm" size="tiny" :modal-append-to-body='false' :close-on-press-escape="false" :close-on-click-modal="true" @close='closeDialog'>
@@ -147,13 +147,15 @@
                     <el-input v-model="addsForm.allDoesInterval" placeholder="2"></el-input>
                     </el-form-item>
 
-                    <el-form-item label="上传开始时间">
+                  
+
+                     <el-form-item label="上传开始时间">
                         <el-input
-                                autosize
+                                autosize width="50px"
                                 v-model="addsForm.uploadStartTime" placeholder="12:00">
                         </el-input>
+                       
                     </el-form-item>
-
 
                     <el-form-item label="上传结束时间">
                     <el-input v-model="addsForm.uploadEndTime" placeholder="15:00"></el-input>
@@ -164,7 +166,16 @@
                     </el-form-item>
 
                     <el-form-item label="上传平台">
-                    <el-input v-model="addsForm.platform" placeholder="1(携程)"></el-input>
+                        <el-select v-model="addsForm.platform" placeholder="请选择" size="small">
+                            <el-option
+                            v-for="item in uploadtyep"
+                            :key="item.id"
+                            :label="item.name"
+                            :value="item.id"
+                            
+                            >
+                            </el-option>
+                        </el-select>
                     </el-form-item>
 
                     <el-form-item label="政策类型">
@@ -191,9 +202,7 @@
                     <el-input v-model="addsForm.status" placeholder="0(未启用)；1已启用"></el-input>
                     </el-form-item>
 
-                    <el-form-item label="最后修改时间">
-                    <el-input v-model="addsForm.updateTime" ></el-input>
-                    </el-form-item>
+                 
 
                     
                     <el-form-item>
@@ -215,12 +224,17 @@ export default {
         
     },
     computed:{
-       datatime(){
-          return moment().format('YYYY-MM-DD HH:mm:ss ')
-       }
+      
     },
     data(){
         return{
+            options: [{
+                    id: '1',
+                    label: '携程'
+                }, {
+                    id: '2',
+                    label: '测试'
+                }],
            createTime:'',
             tableDatas:{
                 allDoesInterval:'',  //间隔时间
@@ -262,43 +276,85 @@ export default {
             pagesize:10,
         }
     },
-    methods:{
-        getnewtimes(){
-            let newtime = moment().format('YYYY-MM-DD HH:mm:ss')
-            console.log(newtime)
-            this.addsForm.updateTime = newtime
+    watch:{
+        // 监听 输入时间时 自动加 :
+        'addsForm.uploadStartTime':function(val,newval){
+            if(val.length==2 && val.indexOf(':') == -1 ){
+         
+              this.addsForm.uploadStartTime = val + ':'
+            }
+           
         },
-        // getuploads(num1,num2){
-        //   return  getupload(num1,num2).then(response => {
-        //        this.tableData = response.data.data.records
-        //        console.log(this.tableData)
-        //     }).catch(err => {
-        //         console.log(err)
-        //     })
-        // }
+         'addsForm.uploadEndTime':function(val,newval){
+            if(val.length==2 && val.indexOf(':') == -1 ){
+              this.addsForm.uploadEndTime = val + ':'
+            }
+            
+        },
+         'addsForm.allDoesTime':function(val,newval){
+            if(val.length==2 && val.indexOf(':') == -1 ){
+              this.addsForm.allDoesTime = val + ':'
+            }
+            
+        },
+
+        // 监听  上传平台
+        "scope.row.platform":function(val,values){
+          this.uploadtyep.forEach((value,index)=>{
+              if(values == value.id){
+                  console.log(value)
+                  return value
+              }
+          })
+        }
+
+    },
+    methods:{
+     
         // 添加  上传任务
         // 点击X关闭
         closeDialog(){
             this.addForm= false
         },
+        //点击添加上传按钮
+    //    async adduploadclick(){
+    //          //获取上传平台
+    //       await  getuplaodtype().then(response => {
+    //             this.uploadtyep = response.data.data
+    //             console.log(this.uploadtyep)
+    //         }).catch(err => {
+    //             console.log(err)
+    //         })
+    //     },
         //点击确定添加上传
         studentAdd(){
-            this.addForm= false
+           
             postupload(this.addsForm).then(response => {
-                // code=0,data=200
-                // console.log(response)
-                if(response.status == 200 ){
-                  
+                
+                if(response.data.code == 0 ){
+                   this.addForm= false
+                   this.addsForm = {}
                      this.$notify({
                         title: '成功',
                         message: '添加成功',
                         type: 'success',
                         duration:1500
                     });
+                }else{
+                    this.$notify.error({
+                            title: '失败',
+                            message: '添加失败',
+                          
+                            duration:1500
+                    });
                 }
-                
             }).catch(err => {
-                console.log(err)
+               this.$notify.error({
+                            title: '失败',
+                            message: '操作失败',
+                          
+                            duration:1500
+                    });
             })
         },
 
@@ -325,6 +381,7 @@ export default {
                 console.log(err)
              })
         },
+        
     },
     async created(){
         await getupload(10,1).then(response => {
@@ -333,14 +390,19 @@ export default {
                 }).catch(err => {
                 console.log(err)
              })
-
-        //获取上传平台
-        await getuplaodtype().then(response => {
-            this.uploadtyep = response.data
-            console.log(this.uploadtyep)
-        }).catch(err => {
-            console.log(err)
+       
+    },
+    mounted(){
+        getuplaodtype().then(response => {
+                this.uploadtyep = response.data.data
+                console.log(this.uploadtyep)
+            }).catch(err => {
+                console.log(err)
         })
+      
+    },
+    filters:{
+        
     }
 }
 </script>
@@ -375,7 +437,7 @@ export default {
                             height: 30px;
                             .el-input__inner{
                                 height: 30px;
-                                width:82%;
+                                width:48%;
                             }
                         }
                     }
