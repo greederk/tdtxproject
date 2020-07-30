@@ -79,10 +79,10 @@ export default {
                             path:'/getgwcount',
                             title:"官网座位数"
                         },
-                        {
-                            path:'/getip',
-                            title:"获取代理ip"
-                        },
+                        // {
+                        //     path:'/getip',
+                        //     title:"获取代理ip"
+                        // },
                         {
                             path:'/tgqconfig',
                             title:"退改签配置"

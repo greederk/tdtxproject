@@ -129,7 +129,7 @@
                             width="80">
                              <template slot-scope="scope">
                                
-                                <span >{{ scope.row.flightType}}</span>
+                                <span >{{ scope.row.flightType == 0 ? '主飞政策' : '共享政策'}}</span>
                             </template>
                         </el-table-column>
 
@@ -181,12 +181,27 @@
 
                 </el-table>
             </template>
+            
            <!-- <button @click="getliudianapi(10,10)"></button>    -->
-          <el-button type="primary" round
+          
+        </div>
+        <div>
+          <el-pagination
+                    @size-change="handleSizeChangeliud"
+                    @current-change="handleCurrentChangeliud"
+                    :current-page="currentPage"
+                    :page-sizes="[10, 20, 30, 40]"
+                    :page-size="pagesize"
+                    layout="total, sizes, prev, pager, next, jumper"
+                    :total="40">
+                </el-pagination>
+                <el-button type="primary" round
                 size="mini"
                 @click="addstudentForm = true" id="addbtn">添加留点配置
-        </el-button> 
-        </div>
+            </el-button> 
+             
+         </div>
+
         
 
          <el-dialog title="修改留点" :visible="editstudentForm" size="tiny" :modal-append-to-body='false' :close-on-press-escape="false" :close-on-click-modal="true" @close='closeDialog' width="500"
@@ -233,6 +248,7 @@
 
                 <el-form-item label="只匹配当日留点">
                 <el-input v-model="editsForm.sameDay" ></el-input>
+                 
                 </el-form-item>
 
                 <el-form-item label="是否匹配航司数据">
@@ -309,11 +325,13 @@
                 <el-input v-model="addsForm.keepMoney" ></el-input>
                 </el-form-item>
 
-                <el-form-item label="只匹配当日留点">
-                <el-input v-model="addsForm.sameDay" placeholder="0:否;  1:是"></el-input>
+                <el-form-item label="只匹配当日留点" >
+                <!-- <el-input v-model="addsForm.sameDay" placeholder="0:否;  1:是"></el-input> -->
+                  <el-radio v-model="addsForm.sameDay" :label="1">是</el-radio>
+                        <el-radio v-model="addsForm.sameDay" :label="0">否</el-radio>
                 </el-form-item>
 
-                <el-form-item label="是否匹配航司数据">
+                <el-form-item label="是否匹配航司数据" style="margin-left:100px">
                 <el-input v-model="addsForm.official" placeholder="0:否;  1:是"></el-input>
                 </el-form-item>
 
@@ -405,7 +423,7 @@ export default {
                  minPrintPrice:'',
                  keepPoint:'',     //留点
                  keepMoney:'',    //留钱
-                 sameDay:'',     //是否只匹配当日留点
+                 sameDay:0,     //是否只匹配当日留点
                  official: '',   //是否匹配航司数据
                  officialProductType:'',    //官网产品类型
                  flightType:'',     //匹配航班类型
@@ -419,14 +437,33 @@ export default {
              addstudentForm:false,
              deleteliudianform:false,
              deteleid:[],
+            //  当前页数  默认 1
+            currentPage:1,
+             // 当前 数量 10
+            pagesize:10,
         }
 
     },
     methods:{
+         // 分页组件
+        handleSizeChangeliud(val) {
+        // 每页展示多少条改变时触发，val是改变成的值
+            this.pagesize=val;
+            this.currentPage=1;
+            // this.getdata(this.currentPage,this.pagesize)
+            this.getliudianapi(this.pagesize,this.currentPage)
+        
+        },
+         handleCurrentChangeliud(val) {
+            //   页数改变时触发
+            this.currentPage=val
+          this.getliudianapi(this.pagesize,this.currentPage)
+        },
 
         getliudianapi(num1,num2){
             getliudian(num1,num2).then(response => {
-                console.log(response)
+                 const ts = response.data.data.records
+                 this.tableData =ts
             }).catch(err => {
                 console.log(err)
             })
@@ -500,8 +537,8 @@ export default {
                     });
                 }
             }).catch(err => {
-                   this.$notify({
-                        title: '成功',
+                   this.$notify.error({
+                        title: '失败',
                         message: '操作失败'+err,
                         type: 'success',
                         duration:1500
@@ -511,15 +548,16 @@ export default {
 
         // 删除留点
         handleDeleteliudian(index,row){
-            console.log(row.id)
+            // console.log(row.id)
+             this.deteleid = []
             this.deleteliudianform= true
             this.deteleid.push(row.id)
             console.log(this.deteleid)
         },
         //点击确定删除
         deleteliudian(){
-            deletelidian(this.deteleid).then(res => {
-              if(res.status ==200){
+            deletelidian('['+this.deteleid+']').then(res => {
+              if(res.data.code ==0){
                   this.deleteliudianform= false
                   this.deteleid = []
                        this.$notify({
@@ -528,6 +566,7 @@ export default {
                         type: 'success',
                         duration:1500
                     });
+
               }
             }).catch(err => {
                 console.log(err)

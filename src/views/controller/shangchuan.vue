@@ -51,19 +51,21 @@
                         <el-table-column
                             prop="tableData.platform"
                             label="上传平台"
-                            width="100">
-                            <template slot-scope="scope">
-                                <span >{{ scope.row.platform  }}</span>
-                            </template>
+                            width="100"
+                            :formatter = "stateplatform">
+                            <!-- <template slot-scope="scope">
+                                <span >{{ scope.row.platform }}</span>
+                            </template> -->
                         </el-table-column>
 
                         <el-table-column
                             prop="tableData.policyType"
                             label="政策类型"
-                            width="100">
-                            <template slot-scope="scope">
+                            width="100"
+                            :formatter = "statepolicyType">
+                            <!-- <template slot-scope="scope">
                                 <span >{{ scope.row.policyType }}</span>
-                            </template>
+                            </template> -->
                         </el-table-column>
 
                         <el-table-column
@@ -166,9 +168,9 @@
                     </el-form-item>
 
                     <el-form-item label="上传平台">
-                        <el-select v-model="addsForm.platform" placeholder="请选择" size="small">
+                        <el-select v-model="addsForm.platform"  size="small">
                             <el-option
-                            v-for="item in uploadtyep"
+                            v-for="item in platforms"
                             :key="item.id"
                             :label="item.name"
                             :value="item.id"
@@ -179,27 +181,75 @@
                     </el-form-item>
 
                     <el-form-item label="政策类型">
-                        <el-input v-model="addsForm.policyType" placeholder="101"></el-input>
+                     
+                        <el-select v-model="addsForm.policyType"  size="small">
+                            <el-option
+                            v-for="item in policyTypes"
+                            :key="item.id"
+                            :label="item.typeName"
+                            :value="item.id"
+                            
+                            >
+                            </el-option>
+                        </el-select>
                     </el-form-item>
 
                     <el-form-item label="上传方式">
-                    <el-input v-model="addsForm.uploadType"   placeholder="1(全量)"></el-input>
+                        <!-- <el-input v-model="addsForm.uploadType"   placeholder="1(全量)"></el-input> -->
+                         <el-select v-model="addsForm.uploadType"  size="small">
+                            <el-option
+                            v-for="item in uploadTypes"
+                            :key="item.id"
+                            :label="item.label"
+                            :value="item.id"
+                            
+                            >
+                            </el-option>
+                        </el-select>
+                    </el-form-item>
+
+
+                    <el-form-item label="政策来源">
+                         <el-input v-model="addsForm.policySource" placeholder="官网"></el-input>
                     </el-form-item>
 
                     <el-form-item label="全量进度">
-                    <el-input v-model="addsForm.allDoesStatus" placeholder="默认0(未开始);1已完成"></el-input>
+                    <!-- <el-input v-model="addsForm.allDoesStatus" placeholder="默认0(未开始);1已完成"></el-input> -->
+                      <!-- <el-select v-model="addsForm.allDoesStatus"  size="small">
+                         <el-option
+                            v-for="item in allDoesStatuss"
+                            :key="item.id"
+                            :label="item.label"
+                            :value="item.id"
+                            
+                            >
+                            </el-option>
+                          </el-select> -->
+
+                           <el-radio v-model="addsForm.allDoesStatus" :label="1">已完成</el-radio>
+                        <el-radio v-model="addsForm.allDoesStatus" :label="0">未开始</el-radio>
                     </el-form-item>
 
-                    <el-form-item label="政策来源">
-                    <el-input v-model="addsForm.policySource" placeholder="官网"></el-input>
-                    </el-form-item>
+               
 
                     <el-form-item label="已执行次数">
                     <el-input v-model="addsForm.scheduleTimes" placeholder="0"></el-input>
                     </el-form-item>
 
-                    <el-form-item label="状态">
-                    <el-input v-model="addsForm.status" placeholder="0(未启用)；1已启用"></el-input>
+                    <el-form-item label="状态:">
+                    <!-- <el-input v-model="addsForm.status" placeholder="0(未启用)；1已启用"></el-input> -->
+                     <!-- <el-select v-model="addsForm.status"  size="small">
+                         <el-option
+                            v-for="item in statuss"
+                            :key="item.id"
+                            :label="item.label"
+                            :value="item.id"
+                            
+                            >
+                            </el-option>
+                          </el-select> -->
+                             <el-radio v-model="addsForm.status" :label="1">已启用</el-radio>
+                        <el-radio v-model="addsForm.status" :label="0">未启用</el-radio>
                     </el-form-item>
 
                  
@@ -216,7 +266,7 @@
 <script>
 import moment from 'moment'
 
-import {getupload,postupload,getuplaodtype} from '@/api/test'
+import {getupload,postupload,getuplaodtype,getpolicytype} from '@/api/test'
 // 获取上传平台 
 export default {
     name:'shangchuan',
@@ -224,17 +274,13 @@ export default {
         
     },
     computed:{
-      
+        
+        
     },
     data(){
         return{
-            options: [{
-                    id: '1',
-                    label: '携程'
-                }, {
-                    id: '2',
-                    label: '测试'
-                }],
+            allplatform :[],
+            allpolicyTypes: [],
            createTime:'',
             tableDatas:{
                 allDoesInterval:'',  //间隔时间
@@ -254,15 +300,15 @@ export default {
              },
              addsForm:{
                  allDoesInterval:'',  //间隔时间
-                allDoesStatus:'',      //0 未开始   1 已完成
+                allDoesStatus:0,      //0 未开始   1 已完成
                 allDoesTime:'',         //执行时间
                 column2:'',
                 id:'',
-                platform:'',          //上传平台
-                policySource:'',     //来源  （官网）
+                platform:1,          //上传平台
+                policySource:'官网',     //来源  （官网）
                 policyType:'',       //政策类型
-                scheduleTimes:'',    //已执行次数
-                status:'',           //状态：0-未启用（默认），1-已启用
+                scheduleTimes:0,    //已执行次数
+                status:0,           //状态：0-未启用（默认），1-已启用
                 updateTime:'',       //example: yyyy-MM-dd HH:mm:ss 
                 uploadEndTime:'',    // 上传结束时间
                 uploadStartTime:'',   //上传开始时间
@@ -270,9 +316,38 @@ export default {
              },
              tableData:[],
              addForm:false,
-             uploadtyep:[],
+             platforms:[],     
+             policyTypes:[],    //政策类型
+             uploadTypes:[
+                 {
+                    id: '1',
+                    label: '全量'
+                }, {
+                    id: '2',
+                    label: '测试'
+                }
+             ],
+            //  allDoesStatuss:[
+            //      {
+            //         id: '0',
+            //         label: '未开始'
+            //     }, {
+            //         id: '1',
+            //         label: '已完成'
+            //     }
+            //  ],
+            //  statuss:[
+            //      {
+            //         id: '0',
+            //         label: '未启用'
+            //     }, {
+            //         id: '1',
+            //         label: '已启用'
+            //     }
+            //  ],
             //  当前页数  默认1
             currentPage:1,
+            // 当前 数量 10
             pagesize:10,
         }
     },
@@ -297,16 +372,18 @@ export default {
             }
             
         },
-
-        // 监听  上传平台
-        "scope.row.platform":function(val,values){
-          this.uploadtyep.forEach((value,index)=>{
-              if(values == value.id){
-                  console.log(value)
-                  return value
-              }
-          })
+        'addsForm.platform':function(val,newval){
+            // console.log(val,newval)
+             getpolicytype(val).then(res => {
+                this.policyTypes = res.data.data
+                console.log( this.policyTypes)
+            }).catch(err => {
+                console.log(err)
+            })
         }
+
+        // 监听  上传平台 的改变
+        
 
     },
     methods:{
@@ -316,17 +393,7 @@ export default {
         closeDialog(){
             this.addForm= false
         },
-        //点击添加上传按钮
-    //    async adduploadclick(){
-    //          //获取上传平台
-    //       await  getuplaodtype().then(response => {
-    //             this.uploadtyep = response.data.data
-    //             console.log(this.uploadtyep)
-    //         }).catch(err => {
-    //             console.log(err)
-    //         })
-    //     },
-        //点击确定添加上传
+
         studentAdd(){
            
             postupload(this.addsForm).then(response => {
@@ -340,6 +407,12 @@ export default {
                         type: 'success',
                         duration:1500
                     });
+                    getupload(this.pagesize,this.currentPage).then(response => {
+                        this.tableData = response.data.data.records
+                    //    console.log(this.tableData)
+                        }).catch(err => {
+                        console.log(err)
+                    })
                 }else{
                     this.$notify.error({
                             title: '失败',
@@ -381,28 +454,63 @@ export default {
                 console.log(err)
              })
         },
+        // 动态改变上传平台的显示值
+        stateplatform(row,column){
+            let a = row.platform
+            // console.log(row)
+            if(a == 1){
+               
+                // console.log('携程')
+                return '携程'
+            }else if(a==2){
+                return '测试'
+            }
+        },
+        // 动态改变政策类型的显示值
+        statepolicyType(row,column){
+            let b = row.policyType
+            for(let c = 0 ; c < this.allpolicyTypes.length; c++){
+                if(this.allpolicyTypes[c].id == b){
+                    // console.log(b,this.allpolicyTypes[c])
+                    return this.allpolicyTypes[c].typeName
+                }
+            }
+        }
         
     },
     async created(){
         await getupload(10,1).then(response => {
                  this.tableData = response.data.data.records
-               console.log(this.tableData)
+            //    console.log(this.tableData)
                 }).catch(err => {
                 console.log(err)
              })
        
     },
     mounted(){
+        //获取上传平台
         getuplaodtype().then(response => {
-                this.uploadtyep = response.data.data
-                console.log(this.uploadtyep)
-            }).catch(err => {
-                console.log(err)
+                this.platforms = response.data.data
+                // console.log('上传平台',this.platforms)
+              
+        }),
+        // 获取要添加的政策类型
+        getpolicytype(this.addsForm.platform).then(res => {
+            this.policyTypes = res.data.data
+            // console.log('政策类型', this.policyTypes)
+        }).catch(err => {
+            console.log(err)
         })
-      
-    },
-    filters:{
-        
+        // 获取所有政策类型
+        // console.log(this.platforms)
+        for(let i =1 ; i<=10 ; i++ ){
+            // console.log(i)
+             getpolicytype(i).then(res=>{
+                //  console.log(i,res.data.data)
+                 this.allpolicyTypes.push(...res.data.data)
+                //  console.log(this.allpolicyTypes)
+            })
+        }
     }
 }
 </script>
@@ -424,23 +532,34 @@ export default {
 
           // 添加上传
         .el-dialog{
+            
             width:800px;
             height: 460px;
             .el-dialog__body{
                 height:500px;
                 .el-form{
+                    
                     display: flex;
                     flex-wrap: wrap;
                     .el-form-item{
                         margin-bottom:1px;
+                    
                         .el-form-item__content{
                             height: 30px;
                             .el-input__inner{
                                 height: 30px;
-                                width:48%;
+                                width:100%;
                             }
                         }
                     }
+                }
+            }
+        }
+        .el-dialog__body{
+            .el-form-item{
+                padding-left:20px;
+                .el-form-item__label{
+                    text-align: left;
                 }
             }
         }

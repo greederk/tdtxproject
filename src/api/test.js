@@ -38,6 +38,24 @@ export function getuplaodtype(){
     method:"get"
   })
 }
+
+// 获取政策类型
+export function getpolicytype(platformId){
+  return request({
+    // 参数是上传平台的的 id 
+    url:`/api/td/PolicyType/selectPolicyTypeByPlatformId/${platformId}`,    
+    method:'get'
+  })
+}
+
+//获取基本配置
+export function getbaseconfig(){
+  return request({
+    url:'/api/td/baseConfig/selectOneBaseConfig',
+    method:'get'
+  })
+}
+
 //修改基本配置
 export function postbaseconfig(data){
   return request({
@@ -65,11 +83,11 @@ export function postliudain(data){
 }
 
 // 删除留点  
-export function deletelidian(id){
+export function deletelidian(data){
   return request({
     url:'/api/td/priceConfig/deletes',
     method:'delete',
-    id
+    data
   })
 }
 

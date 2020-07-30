@@ -263,6 +263,7 @@ import {getaddpiaomj,putpiaomianj,deletepiaomj,postpiaomj} from '@/api/test'
             },
             //点击删除 一条
             handleDeletepiaomj(index,row){
+                this.deletepmjid = []
                 this.deletepiaomjForm =true
                 this.deletepmjid.push(row.id)
                 this.deletepmjoneid =row.id

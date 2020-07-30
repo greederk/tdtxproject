@@ -461,11 +461,11 @@ export const constantRoutes = [
           component: () => import('@/views/controller/getgwcount'),
           meta: { title: '官网座位数'  }
         },
-        {
-          path:'/getip',
-          component: () => import('@/views/controller/getip'),
-          meta: { title: '获取代理ip'  }
-        },
+        // {
+        //   path:'/getip',
+        //   component: () => import('@/views/controller/getip'),
+        //   meta: { title: '获取代理ip'  }
+        // },
         {
           path:'/tgqconfig',
           component: () => import('@/views/controller/tgqconfig'),

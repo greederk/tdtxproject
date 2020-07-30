@@ -13,7 +13,9 @@
                             <el-date-picker
                             v-model="value1"
                             type="date"
-                            placeholder="选择日期">
+                            :placeholder="placeholdernow"
+                             value-format="yyyy-MM-dd"
+                            @change="senddata">
                             </el-date-picker>
                         </div>
                         <!-- <div class="block">
@@ -38,6 +40,10 @@
 <script>
 export default {
   name:'container',
+  props:[
+      'placeholdernow',
+      
+  ],
   data(){
       return{
           radio:'',
@@ -49,11 +55,19 @@ export default {
           shortcuts: []
         },
         value1: '',
-        value2: '',
+      
       }
   },
   methods: {
-           
+    //   传值 给 基本设置   旅行时间限制 1
+      senddata(){
+          this.$emit('tosenddata1',this.value1)
+      }  , 
+    //传值给基本设置      上传比价时间限制 1 
+       
+  },
+  watch:{
+    
   }
     
 }

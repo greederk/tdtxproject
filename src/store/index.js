@@ -11,6 +11,7 @@ const store = new Vuex.Store({
     //   settings,
       user,
     //   test
+      
     },
     getters
   })

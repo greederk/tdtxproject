@@ -11,25 +11,24 @@
                         <div class="block">
                             <!-- <span class="demonstration">默认</span> -->
                             <el-date-picker
-                            v-model="value1"
+                            v-model="value2"
                             type="date"
-                            :placeholder="placeholdernow1"
+                            :placeholder="placeholdernow"
                              value-format="yyyy-MM-dd"
-                            @change="senddata3">
+                            @change="senddata2">
                             </el-date-picker>
                         </div>
-                        <div class="block">
+                        <!-- <div class="block">
                             <span class="demonstration">-</span>
                             <el-date-picker
                             v-model="value2"
                             align="right"
                             type="date"
-                            :placeholder="placeholdernow2"
-                             value-format="yyyy-MM-dd"
-                            @change="senddata4"
+                            placeholder="选择日期"
+                        
                             >
                             </el-date-picker>
-                        </div>
+                        </div> -->
 
                        
              </template>
@@ -42,7 +41,8 @@
 export default {
   name:'container',
   props:[
-      'placeholdernow2','placeholdernow1'
+      'placeholdernow',
+      
   ],
   data(){
       return{
@@ -54,26 +54,19 @@ export default {
           },
           shortcuts: []
         },
-        value1: '',
         value2: '',
-      }
-  },
-  wacth:{
-      value1:function(){
-            console.log(this.value1)
+        
       }
   },
   methods: {
-      senddata3(){
-          this.$emit('tosenddata3',this.value1)
+      //向基本配置  旅行时间限制2 传值  
+      senddata2(){
+          this.$emit('tosenddata2',this.value2)
       },
-      senddata4(){
-          this.$emit('tosenddata4',this.value2)
-      }  
+     
   },
-  mounted(){
-      console.log('ggg')
-      console.log(this.value1)
+  watch:{
+    
   }
     
 }
