@@ -7,21 +7,14 @@
                     border
                     stripe
                     style="width: 80%">
-                        <el-table-column
-                            prop="tableData.id"
-                            label="id"
-                            width="80">
-                             <template slot-scope="scope">
-                               
-                                <span >{{ scope.row.id}}</span>
-                            </template>
-                        </el-table-column>
+
+                   
+
                         <el-table-column
                             prop="tableData.carrier"
                             label="航司"
                             align="center">
-                             <template slot-scope="scope">
-                               
+                             <template slot-scope="scope">                       
                                 <span >{{ scope.row.carrier}}</span>
                             </template>
                         </el-table-column>
@@ -83,8 +76,8 @@
             </template>
 
               <el-dialog title="修改票面价" :visible="editpiaomjForm" size="tiny" :modal-append-to-body='false' :close-on-press-escape="false" :close-on-click-modal="true" @close='closeDialog' width="500"
-         class="edform">
-                    <el-form ref="editpiaomjForms" :model="editpiaomjForms" label-width="130px">
+         class="postpmjform">
+                    <el-form ref="editpiaomjForms" :model="editpiaomjForms" label-width="80px">
                    
 
                         <el-form-item label="航司">
@@ -104,13 +97,15 @@
                         </el-form-item>
 
                          <el-form-item label="航班类型">
-                            <el-input v-model="editpiaomjForms.flightType"></el-input>
+                         
+                              <el-radio v-model="editpiaomjForms.flightType" :label="1">共享</el-radio>
+                              <el-radio v-model="editpiaomjForms.flightType" :label="0">主飞</el-radio>
                         </el-form-item>
 
-                        <el-form-item>
-                            <el-button type="primary" @click="editpiaomjclick">确定</el-button>
-                            <el-button @click="addgwForms={},addgwForm = false">取消</el-button>
-                        </el-form-item>
+                      
+                            <el-button type="primary" @click="editpiaomjclick" class="quedingpostpmj">确定</el-button>
+                            <el-button @click="addgwForms={},editpiaomjForm = false" class="quedingpostpmj">取消</el-button>
+                      
 
                     </el-form>
             </el-dialog>
@@ -118,13 +113,13 @@
             <el-dialog title="删除票面价" :visible="deletepiaomjForm" size="tiny" :modal-append-to-body='false' :close-on-press-escape="false" :close-on-click-modal="true" @close='closeDialog' width="500"
          class="deletepmjform">
                   <el-button type="primary" @click="deletepiaomjclick" class="quedingdelete">确定删除</el-button>
-                    <el-button @click="cleardelete(),addstudentForm = false">取消</el-button>
+                    <el-button @click="deletepiaomjForm = false">取消</el-button>
             </el-dialog>
 
              <el-dialog title="添加票面价" :visible="postpiaomjForm" size="tiny" :modal-append-to-body='false' :close-on-press-escape="false" :close-on-click-modal="true" @close='closeDialog' width="500"
          class="postpmjform">
 
-                    <el-form ref="postpiaomjForms" :model="postpiaomjForms" label-width="130px">
+                    <el-form ref="postpiaomjForms" :model="postpiaomjForms" label-width="80px">
                        
 
                         <el-form-item label="航司">
@@ -144,15 +139,12 @@
                         </el-form-item>
 
                          <el-form-item label="航班类型">
-                            <el-input v-model="postpiaomjForms.flightType" placeholder="0:主飞  ； 1:共享"></el-input>
+                            <el-radio v-model="postpiaomjForms.flightType" :label="1">共享</el-radio>
+                              <el-radio v-model="postpiaomjForms.flightType" :label="0">主飞</el-radio>
                         </el-form-item>
 
-                         <el-form-item label="当前时间">
-                            <el-input v-model="postpiaomjForms.updateTime" ></el-input>
-                        </el-form-item>
-
-                  <el-button type="primary" @click="quedingpostclick" class="quedingpostpmj">确定添加</el-button>
-                    <el-button @click="cleardelete(),addstudentForm = false">取消</el-button>
+                  <el-button type="primary" @click="quedingpostclick" class="quedingpostpmj">确定</el-button>
+                    <el-button @click="cleardelete(),postpiaomjForm = false" class="quedingpostpmj">取消</el-button>
                 </el-form>
             </el-dialog>
 
@@ -161,7 +153,7 @@
     </div>
 </template>
 <script>
-import moment from 'moment'
+// import moment from 'moment'
 import {getaddpiaomj,putpiaomianj,deletepiaomj,postpiaomj} from '@/api/test'
 // 添加票面价加价配置
     export default {
@@ -213,15 +205,16 @@ import {getaddpiaomj,putpiaomianj,deletepiaomj,postpiaomj} from '@/api/test'
         },
         methods:{
             //获取当前时间
-              getnewtimes(){
-            let newtime = moment().format('YYYY-MM-DD HH:mm:ss')
-            // console.log(newtime)
-            this.postpiaomjForms.updateTime = newtime
-             },
+            //   getnewtimes(){
+            // let newtime = moment().format('YYYY-MM-DD HH:mm:ss')
+            // // console.log(newtime)
+            // this.postpiaomjForms.updateTime = newtime
+            //  },
             // 点击x关闭
             closeDialog(){
                 this.editpiaomjForm =false
                  this.deletepiaomjForm =false
+                 this.postpiaomjForm = false
             },
             // 点击修改按钮
             handleEditpiaomj(index,row){
@@ -380,12 +373,17 @@ import {getaddpiaomj,putpiaomianj,deletepiaomj,postpiaomj} from '@/api/test'
                 }
              }
         }
+        //添加票面价
         .postpmjform{
              .el-dialog{
                 width:400px;
-                height: 432px;
-                .quedingdelete{
-                    margin-right: 50px;
+                height: 380px;
+               
+                .el-form-item__label{
+                     text-align:left;
+                }
+                .quedingpostpmj{
+                     margin:19px 20px 30px 60px;
                 }
              }
         }

@@ -92,10 +92,37 @@ export function deletelidian(data){
 }
 
 //过滤配置展示   /td/filterConfig/list/{pageSize}/{currentPage}
-export function getfilter(pagesize,currentpage){
+export function getfilterconfig(pagesize,currentpage){
   return request({
     url:`/api/td/filterConfig/list/${pagesize}/${currentpage}`,
     method:'get'
+  })
+}
+
+// 修改过滤配置
+export function putfilterconfig(data){
+  return request({
+    url:"/api/td/filterConfig/updateFilterConfigById",
+    method:'put',
+    data
+  })
+}
+
+// 添加过滤配置
+export function postfilterconfig(data){
+  return request({
+    url:"/api/td/filterConfig/saveFilterConfig",
+    mehtod:"post",
+    data
+  })
+}
+
+// 删除过滤配置
+export function deletefilterconfig(data){
+  return request({
+    url:"/api/td/filterConfig/deleteBatchByIds",
+    method:'delete',
+    data
   })
 }
 

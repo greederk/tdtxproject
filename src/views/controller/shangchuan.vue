@@ -257,7 +257,7 @@
                     
                     <el-form-item>
                         <el-button type="primary" @click="studentAdd">确定</el-button>
-                        <el-button @click="addsForm={},addForm = false">取消</el-button>
+                        <el-button @click="addForm = false">取消</el-button>
                     </el-form-item>
         </el-form>
       </el-dialog>

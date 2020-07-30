@@ -43,7 +43,7 @@
                             label="限制类型"
                              width="80">
                             <template slot-scope="scope">
-                                <span >{{ scope.row.limitType}}</span>
+                                <span >{{ scope.row.limitType == 0 ? '上传' : '不上传'}}</span>
                             </template>
                         </el-table-column>
 
@@ -52,7 +52,7 @@
                             label="航班类型"
                              width="80">
                             <template slot-scope="scope">
-                                <span >{{ scope.row.flightType}}</span>
+                                <span >{{ scope.row.flightType == 0 ? '主飞政策' :'共享政策' }}</span>
                             </template>
                         </el-table-column>
 
@@ -131,16 +131,17 @@
                 </el-form-item>
 
 
-                <el-form-item label="舱位">
-                 <el-input v-model="editfilterForms.cabin"></el-input>
-                </el-form-item>
+               
 
                 <el-form-item label="限制类型">
-                <el-input v-model="editfilterForms.limitType"></el-input>
+              
+                    <el-radio v-model="editfilterForms.limitType" :label="0">上传</el-radio>
+                              <el-radio v-model="editfilterForms.limitType" :label="1">不上传</el-radio>
                 </el-form-item>
 
                 <el-form-item label="航班类型">
-                    <el-input v-model="editfilterForms.flightType"></el-input>
+                     <el-radio v-model="editfilterForms.flightType" :label="0">主飞政策</el-radio>
+                              <el-radio v-model="editfilterForms.flightType" :label="1">共享政策</el-radio>
                 </el-form-item>
 
                 <el-form-item label="旅行开始日期">
@@ -151,13 +152,15 @@
                 <el-input v-model="editfilterForms.endDate"></el-input>
                 </el-form-item>
 
+                 <el-form-item label="舱位">
+                 <el-input v-model="editfilterForms.cabin"></el-input>
+                </el-form-item>
+
                 <el-form-item label="备注">
                 <el-input v-model="editfilterForms.comment" ></el-input>
                 </el-form-item>
 
-                 <el-form-item label="最后修改时间">
-                <el-input v-model="editfilterForms.updateTime" ></el-input>
-                </el-form-item>
+               
 
                 <el-form-item>
                     <el-button type="primary" @click="studentcEdit">确定</el-button>
@@ -172,10 +175,10 @@
              <!-- 添加过滤配置 -->
               <el-dialog title="添加过滤配置" :visible="addfilterForm" size="tiny" :modal-append-to-body='false' :close-on-press-escape="false" :close-on-click-modal="true" @close='closeDialog' width="500"
              class="edform">
-             <el-form ref="editfilterForms" :model="editfilterForms" label-width="130px">
+             <el-form ref="addfilterForms" :model="addfilterForms" label-width="130px">
 
                 <el-form-item label="航司">
-                  <el-input v-model="editfilterForms.carrier"></el-input>
+                  <el-input v-model="addfilterForms.carrier"></el-input>
                 </el-form-item>
 
                 <el-form-item label="航线">
@@ -183,29 +186,29 @@
                     <el-input
                         
                             autosize
-                            v-model="editfilterForms.airRoute">
+                            v-model="addfilterForms.airRoute">
                     </el-input>
                 </el-form-item>
 
 
                 <el-form-item label="舱位">
-                 <el-input v-model="editfilterForms.cabin"></el-input>
+                 <el-input v-model="addfilterForms.cabin"></el-input>
                 </el-form-item>
 
                 <el-form-item label="限制类型">
-                <el-input v-model="editfilterForms.limitType"></el-input>
+                <el-input v-model="addfilterForms.limitType"></el-input>
                 </el-form-item>
 
                 <el-form-item label="航班类型">
-                    <el-input v-model="editfilterForms.flightType"></el-input>
+                    <el-input v-model="addfilterForms.flightType"></el-input>
                 </el-form-item>
 
                 <el-form-item label="旅行开始日期">
-                   <el-input v-model="editfilterForms.startDate"></el-input>
+                   <el-input v-model="addfilterForms.startDate"></el-input>
                 </el-form-item>
 
                 <el-form-item label="旅行结束日期">
-                <el-input v-model="editfilterForms.endDate"></el-input>
+                <el-input v-model="addfilterForms.endDate"></el-input>
                 </el-form-item>
 
                 <el-form-item label="备注">
@@ -213,21 +216,28 @@
                 </el-form-item>
 
                  <el-form-item label="最后修改时间">
-                <el-input v-model="editfilterForms.updateTime" ></el-input>
+                <el-input v-model="addfilterForms.updateTime" ></el-input>
                 </el-form-item>
 
                 <el-form-item>
                     <el-button type="primary" @click="studentcEdit">确定</el-button>
-                    <el-button @click="editfilterForms={},editfilterForm = false">取消</el-button>
+                    <el-button @click="addfilterForm = false">取消</el-button>
                 </el-form-item>
             </el-form>
       </el-dialog>
+
+
+      <el-dialog title="删除过滤配置" :visible="deletefilterForm" size="tiny" :modal-append-to-body='false' :close-on-press-escape="false" :close-on-click-modal="true" @close='closeDialog' width="500"
+         class="deletepmjform">
+                  <el-button type="primary" @click="deletefilterclick" class="quedingdelete">确定删除</el-button>
+                    <el-button @click="deletefilterForm = false">取消</el-button>
+            </el-dialog>
     </div>
 </template>
 <script>
 
-// 添加票面价加价配置
-import {getfilter} from '@/api/test'
+// 过滤配置
+import {getfilterconfig,putfilterconfig,postfilterconfig,deletefilterconfig} from '@/api/test'
     export default {
         name:"addpiaomianjia",
         data(){
@@ -254,9 +264,21 @@ import {getfilter} from '@/api/test'
                     comment:"",
                     updateTime:""
                 },
+                addfilterForms:{
+                    carrier:"",
+                    airRoute:"",
+                    cabin:"",
+                    limitType:'',
+                    flightType:"",
+                    startDate:"",
+                    endDate:"",
+                    comment:"",
+                    updateTime:""
+                },
                 tableData:[],
                 editfilterForm:false,
                 addfilterForm:false,
+                deletefilterForm:false,
             }
         },
         methods:{
@@ -276,10 +298,17 @@ import {getfilter} from '@/api/test'
             // 点击X 关闭
             closeDialog(){
                 this.editfilterForm = false
+                this.addfilterForm = false
+                this.deletefilterForm = false
             },
             // 删除本条过滤配置
             handleDelete(index,row){
-                console.log(indx,row)
+                console.log(index,row)
+                this.deletefilterForm = true
+            },
+            // 点击确定 删除按钮 
+            deletefilterclick(){
+
             },
             //添加过滤配置
             addfiltershow(){
@@ -287,7 +316,7 @@ import {getfilter} from '@/api/test'
             },
         },
         async created(){
-            await getfilter(10,1).then(response => {
+            await getfilterconfig(10,1).then(response => {
                 this.tableData = response.data.data.records
             }).catch(err => {
                 console.log(err)

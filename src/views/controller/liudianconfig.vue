@@ -332,7 +332,9 @@
                 </el-form-item>
 
                 <el-form-item label="是否匹配航司数据" style="margin-left:100px">
-                <el-input v-model="addsForm.official" placeholder="0:否;  1:是"></el-input>
+                  
+                    <el-radio v-model="addsForm.official" :label="1">是</el-radio>
+                    <el-radio v-model="addsForm.official" :label="0">否</el-radio>
                 </el-form-item>
 
                 <el-form-item label="官网产品类型">
@@ -340,16 +342,16 @@
                 </el-form-item>
 
                 <el-form-item label="匹配航班类型">
-                <el-input v-model="addsForm.flightType" placeholder="0:主飞 ; 1:共享"></el-input>
+              
+                    <el-radio v-model="addsForm.flightType" :label="1">共享</el-radio>
+                    <el-radio v-model="addsForm.flightType" :label="0">主飞</el-radio>
                 </el-form-item>
 
-                <el-form-item label="旅行有效期开始">
-                <el-input v-model="addsForm.startDate" ></el-input>
+                <el-form-item label="旅行有效期">
+                    <Container   @tosenddata3="getsenddataliud3" @tosenddata4="getsenddataliu4"
+                            ></Container>
                 </el-form-item>
-
-                <el-form-item label="旅行有效期结束">
-                <el-input v-model="addsForm.endDate" ></el-input>
-                </el-form-item>
+               
 
                 <el-form-item label="备注">
                 <el-input v-model="addsForm.comment" ></el-input>
@@ -373,9 +375,13 @@
     </div>
 </template>
 <script>
+import Container from '@/components/common/container'
 import {getliudian,postliudain,deletelidian} from '@/api/test'
 export default {
     name:'liudianconfig',
+    components:{
+        Container
+    },
     data(){
         return{
             tableDatas:{
@@ -424,9 +430,9 @@ export default {
                  keepPoint:'',     //留点
                  keepMoney:'',    //留钱
                  sameDay:0,     //是否只匹配当日留点
-                 official: '',   //是否匹配航司数据
-                 officialProductType:'',    //官网产品类型
-                 flightType:'',     //匹配航班类型
+                 official: 1,   //是否匹配航司数据
+                 officialProductType:'所有产品',    //官网产品类型
+                 flightType:0,     //匹配航班类型
                  endDate:'',  //旅行有效期
                  startDate:'', 
                  comment:'' ,   //备注
@@ -459,7 +465,7 @@ export default {
             this.currentPage=val
           this.getliudianapi(this.pagesize,this.currentPage)
         },
-
+        //重新请求当前页数据
         getliudianapi(num1,num2){
             getliudian(num1,num2).then(response => {
                  const ts = response.data.data.records
@@ -498,13 +504,13 @@ export default {
           
         },
         // 点击编辑   确定
-        studentcEdit(){
+        // studentcEdit(){
 
-        },
-        //点击编辑  取消
-        editstudentForm(){
+        // },
+        // //点击编辑  取消
+        // editstudentForm(){
 
-        },
+        // },
         //点击X 关闭 编辑和添加
         closeDialog(){
             // 点击x号关闭
@@ -519,20 +525,26 @@ export default {
         //添加配置
         //  // 点击取消清空数据
         clearstudent(){
-            this.addsForm={}
+            // this.addsForm={}
 
         },
         // 点击添加留点 确定  发送请求
         studentAdd(){
-
            postliudain(this.addsForm).then(res => {
-                if(res.status == 200 ){
+                if(res.data.code == 0 ){
                     this.addstudentForm=false;
-                    this.addsForm = {}
+                    // this.addsForm = {}
                        this.$notify({
                         title: '成功',
                         message: '修改成功',
                         type: 'success',
+                        duration:1500
+                    });
+                     this.getliudianapi(this.pagesize,this.currentPage)
+                }else{
+                     this.$notify.error({
+                        title: '失败',
+                        message: '添加失败，请重新尝试',
                         duration:1500
                     });
                 }
@@ -540,7 +552,6 @@ export default {
                    this.$notify.error({
                         title: '失败',
                         message: '操作失败'+err,
-                        type: 'success',
                         duration:1500
                     });
             })
@@ -566,23 +577,24 @@ export default {
                         type: 'success',
                         duration:1500
                     });
-
+                    this.getliudianapi(this.pagesize,this.currentPage)
               }
             }).catch(err => {
                 console.log(err)
             })
+        },
+        getsenddataliud3(datatwoliud){
+             this.addsForm.startDate = datatwoliud
+         },
+        getsenddataliu4(datatwoliud){
+             this.addsForm.endDate = datatwoliud
         }
+       
 
     },
-     async  created(){
-       await getliudian(10,1).then(res =>{
-           console.log(res)
-           const ts = res.data.data.records
-            this.tableData =ts
-       }).catch(err => {
-           console.log(err)
-       })
-    },
+     created(){
+        this.getliudianapi(10,1)
+    }
 }
 </script>
 <style lang="scss">
