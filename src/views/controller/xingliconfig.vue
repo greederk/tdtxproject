@@ -153,15 +153,21 @@ export default {
 
         }
     },
-    async created(){
-      await  getxingliconfig(10,1).then(res => {
-            console.log(res)
-            if(res.data.code == 0){
-                this.tableData = res.data.data.records
-            }
-        })
+     created(){
+       this.getxinglidata(10,1)
     },
     methods:{
+        // 获取行李额数据
+        getxinglidata(n1,n2){
+            getxingliconfig(n1,n2).then(res => {
+                console.log(res)
+                if(res.data.code == 0){
+                    this.tableData = res.data.data.records
+                }
+            }).catch(err => {
+                console.log(err)
+            })
+        },
         closeDialog(){
             this.editxingliForm = false
             this.addxingliForm = false

@@ -112,7 +112,7 @@ export function putfilterconfig(data){
 export function postfilterconfig(data){
   return request({
     url:"/api/td/filterConfig/saveFilterConfig",
-    mehtod:"post",
+    method:"post",
     data
   })
 }

@@ -62,7 +62,9 @@
                             <template slot-scope="scope">
                                 <span >{{ scope.row.endDate }}</span>
                             </template>
+                         
                         </el-table-column>
+                          
 
                         <el-table-column
                             prop="tableData.refundRule"
@@ -138,25 +140,32 @@
                     <el-form-item label="航线">
                         <el-input
                                 autosize
-                                v-model="addtgqForms.airRoute" placeholder="12:00">
+                                v-model="addtgqForms.airRoute" >
                         </el-input>
                     </el-form-item>
 
 
                     <el-form-item label="舱位">
-                    <el-input v-model="addtgqForms.cabin" placeholder="15:00"></el-input>
+                    <el-input v-model="addtgqForms.cabin" ></el-input>
                     </el-form-item>
 
                     <el-form-item label="启用状态">
-                    <el-input v-model="addtgqForms.status" placeholder="0:未启用;1:已启用"></el-input>
+                    <!-- <el-input v-model="addtgqForms.status" placeholder="0:未启用;1:已启用"></el-input> -->
+                     <el-radio v-model="addtgqForms.status" :label="0">未启用</el-radio>
+                    <el-radio v-model="addtgqForms.status" :label="1">已启用</el-radio>
                     </el-form-item>
 
-                    <el-form-item label="开始日期">
+                    <!-- <el-form-item label="开始日期">
                         <el-input v-model="addtgqForms.startDate" placeholder="2020-07-29"></el-input>
                     </el-form-item>
 
                     <el-form-item label="结束日期">
                     <el-input v-model="addtgqForms.endDate" placeholder="2020-07-30" ></el-input>
+                    </el-form-item> -->
+
+                     <el-form-item label="旅行有效期">
+                        <Container @tosenddata3="getsenddatatgq3" @tosenddata4="getsenddatatgq4"
+                                ></Container>
                     </el-form-item>
 
                     <el-form-item label="退票规则">
@@ -164,7 +173,9 @@
                     </el-form-item>
 
                     <el-form-item label="是否可签转">
-                    <el-input v-model="addtgqForms.canSign" placeholder="0:否 ; 1:是"></el-input>
+                    <!-- <el-input v-model="addtgqForms.canSign" placeholder="0:否 ; 1:是"></el-input> -->
+                     <el-radio v-model="addtgqForms.canSign" :label="0">不可签转</el-radio>
+                    <el-radio v-model="addtgqForms.canSign" :label="1">可签转</el-radio>
                     </el-form-item>
 
                     <el-form-item label="改签规则">
@@ -172,7 +183,9 @@
                     </el-form-item>
 
                     <el-form-item label="乘客类型">
-                    <el-input v-model="addtgqForms.passengerType" placeholder="0(儿童);1:成人"></el-input>
+                    <!-- <el-input v-model="addtgqForms.passengerType" placeholder="0(儿童);1:成人"></el-input> -->
+                    <el-radio v-model="addtgqForms.passengerType" :label="0">儿童</el-radio>
+                    <el-radio v-model="addtgqForms.passengerType" :label="1">成人</el-radio>
                     </el-form-item>
 
                     <!-- <el-form-item label="最后修改时间">
@@ -211,19 +224,26 @@
                     </el-form-item>
 
                     <el-form-item label="开始日期">
-                        <el-input v-model="edittgqForms.startDate" placeholder="2020-07-29"></el-input>
+                        <!-- <el-input v-model="edittgqForms.startDate" placeholder="2020-07-29"></el-input>
                     </el-form-item>
 
                     <el-form-item label="结束日期">
-                    <el-input v-model="edittgqForms.endDate" placeholder="2020-07-30" ></el-input>
+                    <el-input v-model="edittgqForms.endDate" placeholder="2020-07-30" ></el-input> -->
+                         <Container @tosenddata3="getsenddatatgq5" @tosenddata4="getsenddatatgq6"
+                                ></Container>
+
                     </el-form-item>
+
+                      
 
                     <el-form-item label="退票规则">
                     <el-input v-model="edittgqForms.refundRule"></el-input>
                     </el-form-item>
 
                     <el-form-item label="是否可签转">
-                    <el-input v-model="edittgqForms.canSign" placeholder="0:否 ; 1:是"></el-input>
+                    <!-- <el-input v-model="edittgqForms.canSign" placeholder="0:否 ; 1:是"></el-input> -->
+                    <el-radio v-model="edittgqForms.canSign" :label="0">不可签转</el-radio>
+                    <el-radio v-model="edittgqForms.canSign" :label="1">可签转</el-radio>
                     </el-form-item>
 
                     <el-form-item label="改签规则">
@@ -231,7 +251,10 @@
                     </el-form-item>
 
                     <el-form-item label="乘客类型">
-                    <el-input v-model="edittgqForms.passengerType" placeholder="0(儿童);1:成人"></el-input>
+                    <!-- <el-input v-model="edittgqForms.passengerType" placeholder="0(儿童);1:成人"></el-input> -->
+
+                      <el-radio v-model="edittgqForms.passengerType" :label="0">儿童</el-radio>
+                    <el-radio v-model="edittgqForms.passengerType" :label="1">成人</el-radio>
                     </el-form-item>
 
                     <!-- <el-form-item label="最后修改时间">
@@ -252,16 +275,33 @@
                     <el-button @click="cleardelete(),deletetgqForm = false">取消</el-button>
         </el-dialog>
             
-        <div>
+        <!-- <div>
             <el-button @click="posttgqclick">添加退改签配置</el-button>
-        </div>
+        </div> -->
+
+         <div>  
+          <el-pagination
+                    @size-change="handleSizeChange"
+                    @current-change="handleCurrentChange"
+                    :current-page="currentPage"
+                    :page-sizes="[10, 20, 30, 40]"
+                    :page-size="pagesize"
+                    layout="total, sizes, prev, pager, next, jumper"
+                    :total="40">
+                </el-pagination>
+            <el-button @click="posttgqclick">添加退改签配置</el-button>
+         </div>
     </div>
 </template>
 <script>
 import moment from 'moment'
+import Container from '@/components/common/container'
 import {gettgqconfig,posttgqconfig,deletetgqconfig,puttgqconfig} from '@/api/test'
 export default {
     name:'',
+    components:{
+        Container
+    },
     data(){
         return{
             tableData:[],
@@ -311,21 +351,40 @@ export default {
             deletetgqForm:false,
             deletetgqid:[],
             edittgqForm:false,
+            pagesize:10,
+            currentPage:1,
         }
     },
-    async created(){
-        await gettgqconfig(10,1).then(res=>{
-            if(res.data.code == 0){
-                this.tableData = res.data.data.records
-            }
-        })
+     created(){
+         this.gettgqdata(10,1)
     },
     methods:{
-          getnewtimes(){
-            let newtime = moment().format('YYYY-MM-DD HH:mm:ss')
-            // console.log(newtime)
-            this.addtgqForms.updateTime = newtime
-             },
+         // 分页组件
+        handleSizeChange(val) {
+        // 每页展示多少条改变时触发，val是改变成的值
+            this.pagesize=val;
+            this.currentPage=1;
+            // this.getdata(this.currentPage,this.pagesize)
+
+        },
+         handleCurrentChange(val) {
+            //   页数改变时触发
+            this.currentPage=val
+          
+        },
+        //获取退改签数据
+        gettgqdata(n1,n2){
+            gettgqconfig(n1,n2).then(res=>{
+                if(res.data.code == 0){
+                    this.tableData = res.data.data.records
+                }
+            })
+        },
+        //   getnewtimes(){
+        //     let newtime = moment().format('YYYY-MM-DD HH:mm:ss')
+        //     // console.log(newtime)
+        //     this.addtgqForms.updateTime = newtime
+        //      },
         //点击添加 退改签 按钮
         posttgqclick(){
             // console.log('点击')
@@ -340,28 +399,36 @@ export default {
             this.edittgqForm = false
 
         },
+        getsenddatatgq3(datatwotgq){
+             this.addtgqForms.startDate = datatwotgq
+         },
+        getsenddatatgq4(datatwotgq){
+             this.addtgqForms.endDate = datatwotgq
+        },
         // 点击确定 添加  按钮
         handlegettgq(){
             posttgqconfig(this.addtgqForms).then(res => {
-                if(res.data.code == 0){
-                    this.addtgqForm = false
-                    this.addtgqForms = {}
-                    gettgqconfig(10,1).then(res=>{
-                        if(res.data.code == 0){
-                            this.tableData = res.data.data.records
-                        }
-                    });
-                    this.$notify({
-                            title: '成功',
-                            message: '添加成功',
-                            type: 'success',
-                            duration:1500
-                    });
-                }
-                }).catch(err => {
-                     this.$notify({
+                    if(res.data.code == 0){
+                        this.addtgqForm = false
+                        this.addtgqForms = {}
+                        this.gettgqdata(this.pagesize,this.currentPage)
+                        this.$notify({
+                                title: '成功',
+                                message: '添加成功',
+                                type: 'success',
+                                duration:1500
+                        });
+                    }else{
+                        this.$notify.error({
                         title: '错误',
-                        message: '修改成功',  
+                        message: '添加失败',  
+                        duration:1500
+                     });
+                    }
+                }).catch(err => {
+                     this.$notify.error({
+                        title: '错误',
+                        message: '操作失败'+err.data,  
                         duration:1500
                      });
                 })
@@ -378,11 +445,7 @@ export default {
                 if(res.data.code == 0){
                      this.deletetgqForm = false
                      this.deletetgqid = ''
-                     gettgqconfig(10,1).then(res=>{
-                        if(res.data.code == 0){
-                            this.tableData = res.data.data.records
-                        }
-                    })
+                     this.gettgqdata(this.pagesize,this.currentPage)
                     this.$notify({
                             title: '成功',
                             message: '删除成功',
@@ -400,7 +463,7 @@ export default {
             }).catch(err => {
                 this.$notify.error({
                             title: '失败',
-                            message: '操作失败',
+                            message: '操作失败'+err.data,
                           
                             duration:1500
                     });
@@ -418,18 +481,20 @@ export default {
             // this.edittgqForms = row
             this.edittgqForms = Object.assign({},row);
         },
+        // 修改时间
+        getsenddatatgq5(datatwotgq){
+             this.edittgqForms.startDate = datatwotgq
+         },
+        getsenddatatgq6(datatwotgq){
+             this.edittgqForms.endDate = datatwotgq
+        },
         //点击确定   修改退改签
         quedingedittgq(){
             puttgqconfig(this.edittgqForms).then(res =>{
                 if(res.data.code == 0) {
                     this.edittgqForm = false
                     this.edittgqForms = {}
-                    getaddpiaomj(10,1).then(res => {
-                            // console.log(res)
-                            if(res.status == 200){
-                                this.tableData = res.data.data.records
-                            }
-                    });
+                      this.gettgqdata(this.pagesize,this.currentPage)
                     this.$notify({
                             title: '成功',
                             message: '修改成功',
@@ -440,7 +505,6 @@ export default {
                     this.$notify.error({
                             title: '失败',
                             message: '修改失败',
-                           
                             duration:1500
                     });
                 }
@@ -448,7 +512,6 @@ export default {
                 this.$notify.error({
                             title: '失败',
                             message: '操作失败'+err,
-                          
                             duration:1500
                     });
             })

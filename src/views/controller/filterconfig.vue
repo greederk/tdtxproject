@@ -109,8 +109,19 @@
                         </el-table-column>
                 </el-table>
             </template>
-
-            <el-button @click="addfiltershow">添加过滤配置</el-button> 
+             <div>
+          <el-pagination
+                    @size-change="handleSizeChange"
+                    @current-change="handleCurrentChange"
+                    :current-page="currentPage"
+                    :page-sizes="[10, 20, 30, 40]"
+                    :page-size="pagesize"
+                    layout="total, sizes, prev, pager, next, jumper"
+                    :total="40">
+                </el-pagination>
+             <el-button  @click="addfilterForm = true" id="addbtn">添加过滤配置</el-button>
+         </div>
+          
 
              <!-- 修改过滤 -->
               <el-dialog title="修改过滤配置" :visible="editfilterForm" size="tiny" :modal-append-to-body='false' :close-on-press-escape="false" :close-on-click-modal="true" @close='closeDialog' width="500"
@@ -144,12 +155,19 @@
                               <el-radio v-model="editfilterForms.flightType" :label="1">共享政策</el-radio>
                 </el-form-item>
 
-                <el-form-item label="旅行开始日期">
+                <!-- <el-form-item label="旅行开始日期">
                    <el-input v-model="editfilterForms.startDate"></el-input>
                 </el-form-item>
 
                 <el-form-item label="旅行结束日期">
                 <el-input v-model="editfilterForms.endDate"></el-input>
+                </el-form-item> -->
+
+                <el-form-item label="旅行有效期">
+                    <Container 
+                    :placeholdernow1="editfilterForms.startDate" :placeholdernow2="editfilterForms.endDate" 
+                      @tosenddata3="getsenddatafilter3" @tosenddata4="getsenddatafilter4"
+                            ></Container>
                 </el-form-item>
 
                  <el-form-item label="舱位">
@@ -163,7 +181,7 @@
                
 
                 <el-form-item>
-                    <el-button type="primary" @click="studentcEdit">确定</el-button>
+                    <el-button type="primary" @click="quedingeditfilter">确定</el-button>
                     <el-button @click="editfilterForms={},editfilterForm = false">取消</el-button>
                 </el-form-item>
             </el-form>
@@ -191,36 +209,48 @@
                 </el-form-item>
 
 
-                <el-form-item label="舱位">
-                 <el-input v-model="addfilterForms.cabin"></el-input>
+                
+
+                <el-form-item label="限制类型:">
+                       <el-radio v-model="addfilterForms.limitType" :label="0">上传</el-radio>
+                              <el-radio v-model="addfilterForms.limitType" :label="1">不上传</el-radio>
                 </el-form-item>
 
-                <el-form-item label="限制类型">
-                <el-input v-model="addfilterForms.limitType"></el-input>
+                <el-form-item label="航班类型:">
+                  
+                    <el-radio v-model="addfilterForms.flightType" :label="0">主飞政策</el-radio>
+                              <el-radio v-model="addfilterForms.flightType" :label="1">共享政策</el-radio>
                 </el-form-item>
 
-                <el-form-item label="航班类型">
-                    <el-input v-model="addfilterForms.flightType"></el-input>
-                </el-form-item>
-
-                <el-form-item label="旅行开始日期">
+                <!-- <el-form-item label="旅行开始日期">
                    <el-input v-model="addfilterForms.startDate"></el-input>
                 </el-form-item>
 
                 <el-form-item label="旅行结束日期">
                 <el-input v-model="addfilterForms.endDate"></el-input>
+                </el-form-item> -->
+
+                 <el-form-item label="旅行有效期">
+                    <Container 
+            
+                      @tosenddata3="getsenddatafilter5" @tosenddata4="getsenddatafilter6"
+                            ></Container>
+                </el-form-item>
+
+                <el-form-item label="舱位">
+                 <el-input v-model="addfilterForms.cabin"></el-input>
                 </el-form-item>
 
                 <el-form-item label="备注">
-                <el-input v-model="editfilterForms.comment" ></el-input>
+                <el-input v-model="addfilterForms.comment" ></el-input>
                 </el-form-item>
 
-                 <el-form-item label="最后修改时间">
+                 <!-- <el-form-item label="最后修改时间">
                 <el-input v-model="addfilterForms.updateTime" ></el-input>
-                </el-form-item>
+                </el-form-item> -->
 
                 <el-form-item>
-                    <el-button type="primary" @click="studentcEdit">确定</el-button>
+                    <el-button type="primary" @click="quedingaddfilter">确定</el-button>
                     <el-button @click="addfilterForm = false">取消</el-button>
                 </el-form-item>
             </el-form>
@@ -228,18 +258,21 @@
 
 
       <el-dialog title="删除过滤配置" :visible="deletefilterForm" size="tiny" :modal-append-to-body='false' :close-on-press-escape="false" :close-on-click-modal="true" @close='closeDialog' width="500"
-         class="deletepmjform">
+         class="deletefilterform">
                   <el-button type="primary" @click="deletefilterclick" class="quedingdelete">确定删除</el-button>
                     <el-button @click="deletefilterForm = false">取消</el-button>
             </el-dialog>
     </div>
 </template>
 <script>
-
+import Container from '@/components/common/container'
 // 过滤配置
 import {getfilterconfig,putfilterconfig,postfilterconfig,deletefilterconfig} from '@/api/test'
     export default {
         name:"addpiaomianjia",
+        components:{
+            Container
+        },
         data(){
             return{
                 tableDatas:{
@@ -268,8 +301,8 @@ import {getfilterconfig,putfilterconfig,postfilterconfig,deletefilterconfig} fro
                     carrier:"",
                     airRoute:"",
                     cabin:"",
-                    limitType:'',
-                    flightType:"",
+                    limitType:1,
+                    flightType:1,
                     startDate:"",
                     endDate:"",
                     comment:"",
@@ -279,9 +312,50 @@ import {getfilterconfig,putfilterconfig,postfilterconfig,deletefilterconfig} fro
                 editfilterForm:false,
                 addfilterForm:false,
                 deletefilterForm:false,
+                currentPage:1,              
+                pagesize:10,
+                detelefilterid:[],
             }
         },
         methods:{
+              // 分页组件
+        handleSizeChange(val) {
+        // 每页展示多少条改变时触发，val是改变成的值
+            this.pagesize=val;
+            this.currentPage=1;
+            // this.getdata(this.currentPage,this.pagesize)
+            getfilterconfig(this.pagesize,this.currentPage).then(response => {
+                 this.tableData = response.data.data.records
+          
+                }).catch(err => {
+                console.log(err)
+             })
+        },
+         handleCurrentChange(val) {
+            //   页数改变时触发
+            this.currentPage=val
+            getfilterconfig(this.pagesize,this.currentPage).then(response => {
+                 this.tableData = response.data.data.records
+            //    console.log(this.tableData)
+                }).catch(err => {
+                console.log(err)
+             })
+        },
+        // 获取日期组件的参数
+         getsenddatafilter3(datatwofilter){
+             this.editfilterForms.startDate = datatwofilter
+         },
+        getsenddatafilter4(datatwofilter){
+             this.editfilterForms.endDate = datatwofilter
+        },
+        // 获取过滤配置数据
+        getfilterdata(num1,num2){
+            getfilterconfig(num1,num2).then(response => {
+                this.tableData = response.data.data.records
+            }).catch(err => {
+                console.log(err)
+            })
+        },
             // 
             // 修改过滤配置
             editstudentForm(idnex,row){
@@ -291,9 +365,34 @@ import {getfilterconfig,putfilterconfig,postfilterconfig,deletefilterconfig} fro
             handleEdit(index,row){
                   this.editfilterForms = Object.assign({}, row);  //获得所有数据显示在编辑信息模态框里面
             },
-            // 点击确定修改  发送post请求
-            studentcEdit(){
-
+            // 点击确定修改  发送put请求
+            quedingeditfilter(){
+                putfilterconfig(this.editfilterForms).then(res => {
+                    // console.log(res)
+                    if(res.data.code == 0){
+                        this.editfilterForm = false
+                        this.editfilterForms = {}
+                         this.$notify({
+                                title: '成功',
+                                message: '修改成功',
+                                type: 'success',
+                                duration:1500
+                        });
+                        this.getfilterdata(this.pagesize,this.currentPage)
+                    }else{
+                        this.$notify.error({
+                            title: '失败',
+                            message: '修改失败，请重新尝试',
+                            duration:1500
+                         });
+                    }
+                }).catch(err => {
+                    this.$notify.error({
+                            title: '失败',
+                            message: '操作失败'+err.data,
+                            duration:1500
+                    });
+                })
             },
             // 点击X 关闭
             closeDialog(){
@@ -303,24 +402,85 @@ import {getfilterconfig,putfilterconfig,postfilterconfig,deletefilterconfig} fro
             },
             // 删除本条过滤配置
             handleDelete(index,row){
-                console.log(index,row)
+                // console.log(index,row)
                 this.deletefilterForm = true
+                this.detelefilterid = []
+              
+                this.detelefilterid.push(row.id)
+                console.log(this.detelefilterid)
             },
             // 点击确定 删除按钮 
             deletefilterclick(){
-
+                deletefilterconfig('['+this.detelefilterid+']').then(res => {
+                    if(res.data.code == 0){
+                        this.detelefilterid = []
+                        this.deletefilterForm = false
+                        this.$notify({
+                        title: '成功',
+                        message: '删除成功',
+                        type: 'success',
+                        duration:1500
+                        });
+                        this.getfilterdata(this.pagesize,this.currentPage)
+                    }else{
+                        this.$notify.error({
+                        title: '失败',
+                        message: '删除失败，请重新尝试',
+                        duration:1500
+                         });
+                    }
+                }).catch(err => {
+                    this.$notify.error({
+                    title: '失败',
+                    message: '操作失败'+err.data,
+                    duration:1500
+                    });
+                })
             },
             //添加过滤配置
             addfiltershow(){
                 this.addfilterForm = true
             },
+            //添加 获取日期组件的参数
+            getsenddatafilter5(datatwofilter5){
+                this.addfilterForms.startDate = datatwofilter5
+            },
+            getsenddatafilter6(datatwofilter6){
+                this.addfilterForms.endDate = datatwofilter6
+            },
+            // 确定 添加 按钮
+            quedingaddfilter(){
+                postfilterconfig(this.addfilterForms).then(res =>{
+                    console.log(res)
+                    if(res.data.code == 0){
+                        this.addfilterForm = false
+                        // this.addfilterForms = {}
+                        this.$notify({
+                        title: '成功',
+                        message: '添加成功',
+                        type: 'success',
+                        duration:1500
+                        });
+                        this.getfilterdata(this.pagesize,this.currentPage)
+                    }else{
+                        this.$notify.error({
+                        title: '失败',
+                        message: '添加失败，请重新尝试',
+                        duration:1500
+                         });
+                    
+                    }
+                }).catch(err => {
+                    this.$notify.error({
+                    title: '失败',
+                    message: '操作失败'+err.data,
+                    duration:1500
+                    });
+                })
+            }
         },
-        async created(){
-            await getfilterconfig(10,1).then(response => {
-                this.tableData = response.data.data.records
-            }).catch(err => {
-                console.log(err)
-            })
+         created(){
+            this.getfilterdata(this.pagesize,this.currentPage)
         }
     }
 </script>
@@ -348,4 +508,18 @@ import {getfilterconfig,putfilterconfig,postfilterconfig,deletefilterconfig} fro
             }
         }
 }
+</style>
+
+<style lang="scss">
+    
+    // 删除过滤配置弹框
+    .deletefilterform{
+           .el-dialog{
+            width:300px;
+            height: 160px;
+                .quedingdelete{
+                    margin-right:50px;
+                }
+             }
+    }
 </style>

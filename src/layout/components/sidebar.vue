@@ -103,10 +103,16 @@ export default {
                     index:1,
                     children: [
                         {
+                            path: '/huitianpiaohao',
+                            name: 'huitianpiaohao',
+                            title: '回填票号' ,
+                            index:1-1,
+                        },
+                        {
                         path: '/chupiaodaodan',
                         name: 'chupiaodaodan',
                         title: '出票导单监控' ,
-                        index:1-1,
+                        index:1-5,
                         },
                         {
                         path: '/guoneizd',
@@ -437,64 +443,7 @@ export default {
                             title: '导单统计'
                         }
                     ]
-                },
-                {
-                    path: '/Controller',
-                    name: 'Controller',                  
-                    title: '政策配置',
-                    icon: 'el-icon-circle-plus-outline',
-                    index:6,
-                    children: [
-                        {
-                            path: '/shangchuan',
-                            title: '上传配置' 
-                        },
-                        {
-                            path:'/flightprice',
-                            title:"航班价格信息"
-                        },
-                        {
-                            path:'/baseconfig',
-                            title:"基本配置"
-                        },
-                         {
-                            path:'/liudianconfig',
-                            title:"留点配置"
-                        },
-                        // {
-                        //     path:'/postliudian',
-                        //     title:"修改留点配置"
-                        // },
-                        {
-                            path:'/addpiaomianjia',
-                            title:"增加票面价"
-                        },
-                        {
-                            path:'/filterconfig',
-                            title:"过滤配置"
-                        },
-                        // {
-                        //     path:'/postupload',
-                        //     title:"添加上传配置"
-                        // },
-                         {
-                            path:'/getgwcount',
-                            title:"官网座位数"
-                        },
-                        {
-                            path:'/getip',
-                            title:"获取代理ip"
-                        },
-                        {
-                            path:'/tgqconfig',
-                            title:"退改签配置"
-                        },
-                        {
-                            path:'/xingliconfig',
-                            title:"行李额配置"
-                        }
-                    ]
-                },
+                }
             ]
         }
     },

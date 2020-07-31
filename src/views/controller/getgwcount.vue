@@ -161,15 +161,23 @@
 
                 </el-table>
                 <!-- <el-button @click="getgwcounts(10,1)">添加官网座位数</el-button> -->
-                <el-button @click="postgwcounts()">添加官网座位数</el-button>
+        <div>
+          <el-pagination
+                    @size-change="handleSizeChange"
+                    @current-change="handleCurrentChange"
+                    :current-page="currentPage"
+                    :page-sizes="[10, 20, 30, 40]"
+                    :page-size="pagesize"
+                    layout="total, sizes, prev, pager, next, jumper"
+                    :total="40">
+                </el-pagination>
+             <el-button @click="postgwcounts()">添加官网座位数</el-button>
+         </div>
+              
         
          <el-dialog title="修改官网座位数" :visible="editgwForm" size="tiny" :modal-append-to-body='false' :close-on-press-escape="false" :close-on-click-modal="true" @close='closeDialog'>
              <el-form ref="editgwForms" :model="editgwForms" label-width="130px">
 
-                    <el-form-item label="id">
-                        <span>{{editgwForms.id}}</span>
-                        <!-- <el-input v-model="editgwForms.id" ></el-input> -->
-                    </el-form-item>
 
                     <el-form-item label="航司">
                         <el-input v-model="editgwForms.carrier" ></el-input>
@@ -182,12 +190,12 @@
                         </el-input>
                     </el-form-item>
 
-                    <el-form-item label="修改时的时间">
+                    <!-- <el-form-item label="修改时的时间">
                         <el-input
                                 autosize
                                 v-model="editgwForms.updateTime" >
                         </el-input>
-                    </el-form-item>
+                    </el-form-item> -->
 
 
                      <el-form-item>
@@ -212,12 +220,12 @@
                         </el-input>
                     </el-form-item>
 
-                    <el-form-item label="修改时的时间">
+                    <!-- <el-form-item label="修改时的时间">
                         <el-input
                                 autosize
                                 v-model="addgwForms.updateTime" placeholder="12:00">
                         </el-input>
-                    </el-form-item>
+                    </el-form-item> -->
 
 
                      <el-form-item>
@@ -260,27 +268,41 @@ export default {
                 // updateTime:'', 
             addgwForm:false,
             editgwForm:false,
+            currentPage:1,              
+            pagesize:10,
+
            
         }
     },
-  async  created(){
+    created(){
        
-         await  getgwcount(10,1).then(res=>{
-            this.tableData = res.data.data.records
-            this.length = res.data.total
-            console.log(this.tableData)
-        })
+            this.getgwcounts(this.pagesize,this.currentPage)
     },
     methods:{
+           // 分页组件
+        handleSizeChange(val) {
+        // 每页展示多少条改变时触发，val是改变成的值
+            this.pagesize=val;
+            this.currentPage=1;
+            // this.getdata(this.currentPage,this.pagesize)
+            this.getgwcounts(this.pagesize,this.currentPage)
+        },
+         handleCurrentChange(val) {
+            //   页数改变时触发
+            this.currentPage=val
+            this.getgwcounts(this.pagesize,this.currentPage)
+        },
+        
         // 点击X关闭添加框
           closeDialog(){
             this.addgwForm= false
             this.editgwForm = false
         },
+        // 获取官网座位数数据
         getgwcounts(n1,n2){
             getgwcount(n1,n2).then(res=>{
             this.tableData = res.data.data.records
-            console.log(this.tableData)
+            // console.log(this.tableData)
         })
         },
         // 点击修改
@@ -322,8 +344,8 @@ export default {
         postgwcounts(data){
            
                 this.addgwForm = true
-                let newtime = moment().format('YYYY-MM-DD HH:mm:ss')
-                this.addgwForms.updateTime = newtime
+                // let newtime = moment().format('YYYY-MM-DD HH:mm:ss')
+                // this.addgwForms.updateTime = newtime
                
           
         },

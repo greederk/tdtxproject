@@ -17,3 +17,4 @@ const store = new Vuex.Store({
   })
   
   export default store
+  // 财务，退改签 出票员 部门主管

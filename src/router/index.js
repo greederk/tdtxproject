@@ -160,6 +160,12 @@ export const constantRoutes = [
           name: 'huitianrw',
           component: () => import('@/views/orders/huitianrw.vue'),
           meta: { title: '回填任务'}
+        },
+        {
+          path: '/huitianpiaohao',
+          name: 'huitianpiaohao',
+          component: () => import('@/views/orders/huitianpiaohao.vue'),
+          meta: { title: '回填票号'}
         }
       ]
     },
