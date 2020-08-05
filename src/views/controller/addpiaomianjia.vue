@@ -3,12 +3,16 @@
          <template>
                 <el-table
                     :data="tableData"
-                
+                    @selection-change="handleSelectionChange"  
                     border
                     stripe
                     style="width: 80%">
 
-                   
+                        
+                        <el-table-column
+                            type="selection"
+                            width="55">
+                        </el-table-column>
 
                         <el-table-column
                             prop="tableData.carrier"
@@ -149,6 +153,7 @@
             </el-dialog>
 
             <el-button @click="postpiaomjclick">添加票面价设置</el-button>
+               <el-button @click="deleteSelection()" type="danger" >批量删除</el-button>
 
     </div>
 </template>
@@ -193,6 +198,10 @@ import {getaddpiaomj,putpiaomianj,deletepiaomj,postpiaomj} from '@/api/test'
                 deletepmjid:[],
                 deletepmjoneid:'',
                 postpiaomjForm:false,
+                 // 批量删除的数据
+                tableChecked:[],
+                //批量删除的ids  
+                deleteids:[],
             }
         },
         async created(){
@@ -211,6 +220,11 @@ import {getaddpiaomj,putpiaomianj,deletepiaomj,postpiaomj} from '@/api/test'
             // this.postpiaomjForms.updateTime = newtime
             //  },
             // 点击x关闭
+
+            // 获取当前页面数据
+            // getpiaomjdata(){
+            //     getaddpiaomj()
+            // },
             closeDialog(){
                 this.editpiaomjForm =false
                  this.deletepiaomjForm =false
@@ -306,6 +320,50 @@ import {getaddpiaomj,putpiaomianj,deletepiaomj,postpiaomj} from '@/api/test'
             cleardelete(){
                  this.deletepiaomjForm =false
                  
+            },
+             //批量删除留点
+            deleteSelection() {
+                console.log(this.deleteids)
+                if (this.deleteids) {
+                    deletepiaomj(this.deleteids).then(res => {
+                        if(res.data.code ==0){
+                            // this.deleteliudianform= false
+                            this.deleteids = []
+                                this.$notify({
+                                    title: '成功',
+                                    message: '删除成功',
+                                    type: 'success',
+                                    duration:1500
+                                });
+                                getaddpiaomj(10,1).then(res => {
+                                // console.log(res)
+                                if(res.status == 200){
+                                    this.tableData = res.data.data.records
+                                }
+                        });
+                        }
+                    }).catch(err => {
+                            this.$notify.error({
+                                    title: '失败',
+                                    message: '删除失败',  
+                                    duration:1500
+                                });
+                    })
+                } else {
+                    // this.$refs.multipleTable.clearSelection();
+                   this.$notify.error({
+                        title: '失败',
+                        message: '删除失败',  
+                        duration:1500
+                    });
+                }
+            },
+            handleSelectionChange(val) {
+                //  console.log(val[val.length-1].id)
+                this.tableChecked = val;
+                // console.log(this.tableChecked)
+                this.deleteids.push( val[val.length-1].id)
+                console.log(this.deleteids)
             },
             //点击添加票面价 按钮
             postpiaomjclick(){

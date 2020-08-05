@@ -137,7 +137,8 @@
                     :page-sizes="[10, 20, 30, 40]"
                     :page-size="pagesize"
                     layout="total, sizes, prev, pager, next, jumper"
-                    :total="40">
+                    :total="100"
+                    >
                 </el-pagination>
              <el-button  @click="addForm = true" id="addbtn">添加上传任务配置</el-button>
          </div>

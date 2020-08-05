@@ -5,10 +5,15 @@
                <template>
                 <el-table
                     :data="tableData"
-                
+                     @selection-change="handleSelectionChange"  
                     border
                     stripe
                     style="width: 100%">
+
+                        <el-table-column
+                            type="selection"
+                            width="55">
+                        </el-table-column>
 
                         <el-table-column
                             prop="tableData.carrier"
@@ -196,9 +201,10 @@
                     :total="40">
                 </el-pagination>
                 <el-button type="primary" round
-                size="mini"
-                @click="addstudentForm = true" id="addbtn">添加留点配置
-            </el-button> 
+                    size="mini"
+                    @click="addstudentForm = true" id="addbtn">添加留点配置
+                </el-button> 
+                 <el-button @click="deleteSelection()" type="danger" >批量删除</el-button>
              
          </div>
 
@@ -447,6 +453,10 @@ export default {
             currentPage:1,
              // 当前 数量 10
             pagesize:10,
+            // 批量删除的数据
+            tableChecked:[],
+            //批量删除的ids  
+            deleteids:[],
         }
 
     },
@@ -582,6 +592,46 @@ export default {
             }).catch(err => {
                 console.log(err)
             })
+        },
+
+        //批量删除留点
+        deleteSelection() {
+            console.log(this.deleteids)
+            if (this.deleteids) {
+                deletelidian(this.deleteids).then(res => {
+                    if(res.data.code ==0){
+                        // this.deleteliudianform= false
+                        this.deleteids = []
+                            this.$notify({
+                                title: '成功',
+                                message: '删除成功',
+                                type: 'success',
+                                duration:1500
+                            });
+                            this.getliudianapi(this.pagesize,this.currentPage)
+                    }
+                }).catch(err => {
+                         this.$notify.error({
+                                title: '失败',
+                                message: '删除失败',  
+                                duration:1500
+                            });
+                })
+            } else {
+                // this.$refs.multipleTable.clearSelection();
+                this.$notify.error({
+                        title: '失败',
+                        message: '删除失败',  
+                        duration:1500
+                    });
+            }
+        },
+         handleSelectionChange(val) {
+            //  console.log(val[val.length-1].id)
+            this.tableChecked = val;
+            // console.log(this.tableChecked)
+            this.deleteids.push( val[val.length-1].id)
+            console.log(this.deleteids)
         },
         getsenddataliud3(datatwoliud){
              this.addsForm.startDate = datatwoliud

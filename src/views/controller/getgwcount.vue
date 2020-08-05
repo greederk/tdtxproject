@@ -8,7 +8,7 @@
                     stripe
                     style="width: 100%">
 
-                       <el-table-column
+                       <!-- <el-table-column
                             prop="tableData.allDoesInterval"
                             label="id"
                             align="center"
@@ -17,7 +17,8 @@
                                
                                 <span >{{ scope.row.id}}</span>
                             </template>
-                        </el-table-column>
+                        </el-table-column> -->
+
                         <el-table-column
                             prop="tableData.allDoesInterval"
                             label="航司"

@@ -1,8 +1,8 @@
 <template>
     <div class="navheaderc">
        <!-- <div>宽度：{{dataone1}}高度：{{dataone}}</div> -->
-       <el-button type="primary" round  class="redirect" @click="gethome">回到首页</el-button>
-        <el-button type="primary" round class="loginout" @click="loginout">退出登录</el-button>
+       <el-button type="primary" round  class="login" @click="gethome">回到首页</el-button>
+        <el-button type="primary" round class="login1" @click="loginout">退出登录</el-button>
        
     </div>
 </template>

@@ -1,2 +1,2 @@
-####按需加载element-ui
-####安装vue-router  
+npm i
+npm run dev

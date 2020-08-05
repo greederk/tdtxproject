@@ -220,7 +220,10 @@
                     </el-form-item>
 
                     <el-form-item label="启用状态">
-                    <el-input v-model="edittgqForms.status" placeholder="0:未启用;1:已启用"></el-input>
+
+                          <el-radio v-model="edittgqForms.status" :label="0">未启用</el-radio>
+                    <el-radio v-model="edittgqForms.status" :label="1">已启用</el-radio>
+
                     </el-form-item>
 
                     <el-form-item label="开始日期">
